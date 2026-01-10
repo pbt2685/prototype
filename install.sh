@@ -54,8 +54,7 @@ cd frappe-bench
 bench new-site localhost --mariadb-root-password admin --admin-password admin
 
 # ====== 🔧 CẬP NHẬT REDIS PORT ======
-sed -i 's|"redis_cache": *"redis://127.0.0.1:[0-9]\+"|"redis_cache": "redis://127.0.0.1:6379"|' sites/common_site_config.json
-sed -i 's|"redis_socketio": *"redis://127.0.0.1:[0-9]\+"|"redis_socketio": "redis://127.0.0.1:6379"|' sites/common_site_config.json
+sed -i 's/:13000/:6379/g; s/:11000/:6379/g' sites/common_site_config.json
 
 # ====== 🔟 CÀI APP PROTOTYPE ======
 bench get-app https://github.com/HieuCaoTlu/prototype
