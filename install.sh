@@ -1,76 +1,78 @@
-cd ~
+#!/bin/bash
+set -e
+set -o pipefail
+
+# ====== 1️⃣ CÀI DEPENDENCIES ======
 sudo apt update
-sudo apt install git redis-server libmariadb-dev mariadb-server mariadb-client pkg-config pipx xvfb libfontconfig expect -y
+sudo apt install -y git redis-server libmariadb-dev mariadb-server mariadb-client pkg-config pipx xvfb libfontconfig expect wget curl
+sudo mysql_secure_installation
 
-cat << 'EOF' > mariadb_secure.expect
-#!/usr/bin/expect -f
-set timeout 10
-spawn sudo mariadb-secure-installation
-
-expect "Enter current password for root"
-send "\r"
-
-expect "Switch to unix_socket authentication"
-send "Y\r"
-
-expect "Change the root password?"
-send "Y\r"
-
-expect "New password:"
-send "admin\r"
-
-expect "Re-enter new password:"
-send "admin\r"
-
-expect "Remove anonymous users?"
-send "Y\r"
-
-expect "Disallow root login remotely?"
-send "Y\r"
-
-expect "Remove test database and access to it?"
-send "Y\r"
-
-expect "Reload privilege tables now?"
-send "Y\r"
-
-expect eof
-EOF
-
-chmod +x mariadb_secure.expect
-./mariadb_secure.expect
-rm mariadb_secure.expect
-
+# ====== 2️⃣ CÀI WKHTMLTOPDF ======
 cd ~
-wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
-sudo dpkg -i wkhtmltox_0.12.6.1-2.jammy_amd64.deb || sudo apt -f install -y
+WK_DEB="wkhtmltox_0.12.6.1-2.jammy_amd64.deb"
+wget -O $WK_DEB https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/$WK_DEB
+sudo dpkg -i $WK_DEB || sudo apt -f install -y
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-source ~/.bashrc
+# ====== 3️⃣ CÀI NVM + NODE + YARN ======
+export NVM_DIR="$HOME/.nvm"
+if [ ! -d "$NVM_DIR" ]; then
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+fi
+
+# Load nvm ngay trong script
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
 nvm install 24
+nvm use 24
 npm install -g yarn
+
+# ====== 4️⃣ CÀI UV + PYTHON ======
 curl -LsSf https://astral.sh/uv/install.sh | sh
-source ~/.bashrc
-uv python install 3.14 --default
+export PATH="$HOME/.local/bin:$PATH"
+if uv python list | grep -q 3.14; then
+    uv python uninstall 3.14
+fi
+uv python install 3.12 --default
+
+# ====== 5️⃣ PIPX ======
 pipx ensurepath
-cd ~
+
+# ====== 6️⃣ CÀI FRAPPE-BENCH ======
 pipx install frappe-bench
+
+# ====== 7️⃣ REDIS ======
 sudo systemctl enable redis-server
 sudo systemctl start redis-server
+
+# ====== 8️⃣ INIT BENCH ======
+cd ~
 bench init --frappe-branch version-15 frappe-bench
 cd frappe-bench
+
+# ====== 9️⃣ TẠO SITE ======
 bench new-site localhost --mariadb-root-password admin --admin-password admin
+
+# ====== 🔧 CẬP NHẬT REDIS PORT ======
+sed -i 's|"redis_cache": *"redis://127.0.0.1:[0-9]\+"|"redis_cache": "redis://127.0.0.1:6379"|' sites/common_site_config.json
+sed -i 's|"redis_socketio": *"redis://127.0.0.1:[0-9]\+"|"redis_socketio": "redis://127.0.0.1:6379"|' sites/common_site_config.json
+
+# ====== 🔟 CÀI APP PROTOTYPE ======
 bench get-app https://github.com/HieuCaoTlu/prototype
-cd ~/frappe-bench/apps/prototype
+cd apps/prototype
 git remote add origin https://github.com/HieuCaoTlu/prototype
 git remote remove upstream 2>/dev/null || true
+git pull origin develop
+cd ../../
+
 bench --site localhost install-app prototype
 bench --site localhost enable-scheduler
-bench --site localhost set-config server_script_enabled true
-bench set-config -g developer_mode true
 bench --site localhost add-to-hosts
 bench --site localhost migrate
+
+# ====== 1️⃣1️⃣ CÀI HONCHO ======
 pipx install honcho
 pipx inject frappe-bench honcho
-git pull origin develop
+
+# ====== 1️⃣2️⃣ START BENCH ======
 bench start
