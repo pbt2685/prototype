@@ -18,6 +18,9 @@ def setup_website():
 def cleanup_custom():
     app_path = frappe.get_app_path("prototype")
     custom_path = os.path.join(app_path,"prototype","custom")
+    if not os.path.isdir(custom_path):
+        frappe.logger().info("No custom directory found, skipping cleanup_custom")
+        return
     result = dict()
     for row in os.listdir(custom_path):
         dir = os.path.join(custom_path, row)
