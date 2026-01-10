@@ -58,6 +58,9 @@ web_include_css = [
     "/assets/prototype/css/web.css"
 ]
 
+after_install = "prototype.setup.setup_website"
+after_migrate = "prototype.cleanup.cleanup_custom"
+
 # include js, css files in header of desk.html
 # app_include_css = "/assets/prototype/css/prototype.css"
 # app_include_js = "/assets/prototype/js/prototype.js"
