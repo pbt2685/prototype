@@ -68,6 +68,7 @@ bench --site localhost install-app prototype
 bench --site localhost enable-scheduler
 bench --site localhost add-to-hosts
 bench --site localhost migrate
+bench set-config -g developer_mode 1
 
 # ====== 1️⃣1️⃣ CÀI HONCHO ======
 pipx install honcho
