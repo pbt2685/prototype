@@ -1,0 +1,6 @@
+body {
+    background-image: url("/assets/prototype/images/bgr.png");
+    background-size: cover;        /* phủ hết màn hình */
+    background-position: center;   /* căn giữa ảnh */
+    background-repeat: no-repeat;  /* không lặp lại */
+}

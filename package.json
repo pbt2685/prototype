@@ -1,0 +1,43 @@
+{
+  "name": "prototype",
+  "version": "1.0.0",
+  "description": "FaceNet Prototype",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:css": "tailwindcss -i ./prototype/public/css/tailwind.css -o ./prototype/public/css/build.css --watch",
+    "build:css": "tailwindcss -i ./prototype/public/css/tailwind.css -o ./prototype/public/css/build.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitest/coverage-v8": "^2.1.8",
+    "autoprefixer": "^10.4.2",
+    "jsdom": "^25.0.1",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.4.15"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^7.0.1",
+    "@vue-flow/background": "^1.1.0",
+    "@vue-flow/controls": "^1.1.3",
+    "@vue-flow/core": "^1.16.2",
+    "@vue/component-compiler": "^4.2.4",
+    "@vueuse/core": "^9.5.0",
+    "ant-design-vue": "^4.2.6",
+    "chart.js": "^4.5.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "feather-icons": "^4.29.2",
+    "frappe-ui": "^0.1.192",
+    "lucide-vue-next": "^0.545.0",
+    "socket.io-client": "^4.7.2",
+    "vue": "^3.5.13",
+    "vue-chartjs": "^5.3.2",
+    "vue-datepicker-next": "^1.0.3",
+    "vue-router": "^4.5.0",
+    "vuedraggable": "4.1.0"
+  }
+}

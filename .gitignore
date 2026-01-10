@@ -3,5 +3,6 @@
 *.egg-info
 *.swp
 tags
+prototype/public/dist
 node_modules
 __pycache__

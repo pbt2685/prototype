@@ -24,6 +24,40 @@ app_license = "mit"
 # Includes in <head>
 # ------------------
 
+fixtures = [
+    {"doctype": "Role", "filters": [["is_custom", "=", 1]]},
+    {"dt": "Custom Field", "filters": [["fieldname", "=", "workflow_state"]]},
+    {"doctype": "Workflow"},
+    {"doctype": "Workflow State"},
+    {"doctype": "Workflow Action Master"},
+    {"doctype": "Workspace"},
+    {"doctype": "Website Settings"},
+    {"doctype": "System Settings"},
+    {"doctype": "Role Profile"},
+    {"doctype": "List View Settings"},
+    {"doctype": "Letter Head"},
+]
+
+app_include_css = [
+    "/assets/prototype/css/build.css",
+    "/assets/prototype/css/desk.css",
+    "/assets/prototype/css/custom.css",
+    "/assets/prototype/css/report.css",
+    "/assets/prototype/js/prototype/custom/datatable/style.css",
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css",
+]
+# app_include_js = "/assets/prototype/js/prototype.js"
+app_include_js = [
+    "my_desk.bundle.js",
+    "prototype.bundle.js"
+]
+
+# include js, css files in header of web template
+# web_include_css = "/assets/prototype/css/prototype.css"
+web_include_css = [
+    "/assets/prototype/css/web.css"
+]
+
 # include js, css files in header of desk.html
 # app_include_css = "/assets/prototype/css/prototype.css"
 # app_include_js = "/assets/prototype/js/prototype.js"

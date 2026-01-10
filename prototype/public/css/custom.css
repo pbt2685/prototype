@@ -1,0 +1,71 @@
+.form-control[data-fieldtype="Small Text"] {
+    min-height: 100px !important;
+    height: 100px !important;
+}
+
+textarea {
+    resize: none !important;
+}
+
+
+@media (max-width: 768px) {
+  .modal-content .form-grid-container .form-grid {
+    width: 100%;
+    min-width: unset;
+  }
+  .navbar-title,
+  .dropdown-logout,
+  .workspace-navbar{
+    display: none !important;
+  }
+
+  .navbar-brand {
+    width: 35px;
+  }
+
+  .search-bar {
+    display: none !important;    
+  }
+}
+
+@media (max-width: 767.98px) {
+    .dropdown-notifications .notifications-list {
+        max-height: 100vh;
+        min-width: 80vw;
+        width: calc(-60px + 90vw);
+        right: -68px;
+    }
+}
+
+@media (min-width: 768px) {
+  .layout-side-section {
+      display: none !important;
+  }
+}
+
+.bs-popover-top {
+  display: none !important;
+}
+
+.notification-item.unread {
+  background: rgb(243, 248, 255);
+}
+
+.list-subject {
+  flex: 1.2;
+}
+
+.list-row .level-left, .list-row-head .level-left {
+    flex: 4;
+    min-width: 90%;
+}
+
+@media (max-width: 768px) {
+  .list-row .level-left, .list-row-head .level-left {
+    min-width: 60%;
+  }
+
+  .list-count {
+    white-space: nowrap;
+  }
+}
