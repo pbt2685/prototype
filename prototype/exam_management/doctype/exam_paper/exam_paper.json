@@ -85,7 +85,7 @@
    "fieldname": "questions",
    "fieldtype": "Table",
    "label": "C\u00e2u h\u1ecfi",
-   "options": "Exam Question"
+   "options": "Exam Paper Question"
   },
   {
    "fieldname": "section_break_3",

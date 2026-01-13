@@ -1,15 +1,13 @@
 {
  "actions": [],
- "creation": "2026-01-13 10:00:00.000000",
+ "creation": "2026-01-13 10:00:00",
  "doctype": "DocType",
- "editable_grid": 1,
  "engine": "InnoDB",
- "istable": 1,
  "field_order": [
-  "question_number",
+  "question_code",
   "question_text",
-  "question_type",
   "column_break_1",
+  "question_type",
   "marks",
   "difficulty_level",
   "section_break_1",
@@ -22,15 +20,18 @@
   "column_break_2",
   "correct_answer",
   "section_break_3",
-  "explanation"
+  "explanation",
+  "section_break_4",
+  "status"
  ],
  "fields": [
   {
-   "fieldname": "question_number",
-   "fieldtype": "Int",
+   "fieldname": "question_code",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Số thứ tự",
-   "reqd": 1
+   "label": "Mã câu hỏi",
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "question_text",
@@ -40,17 +41,17 @@
    "reqd": 1
   },
   {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Trắc nghiệm",
    "fieldname": "question_type",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Loại câu hỏi",
    "options": "Trắc nghiệm\nĐúng/Sai\nTự luận\nĐiền khuyết",
-   "default": "Trắc nghiệm",
    "reqd": 1
-  },
-  {
-   "fieldname": "column_break_1",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "marks",
@@ -60,11 +61,11 @@
    "reqd": 1
   },
   {
+   "default": "Trung bình",
    "fieldname": "difficulty_level",
    "fieldtype": "Select",
    "label": "Độ khó",
-   "options": "Dễ\nTrung bình\nKhó",
-   "default": "Trung bình"
+   "options": "Dễ\nTrung bình\nKhó"
   },
   {
    "fieldname": "section_break_1",
@@ -77,10 +78,10 @@
    "label": "Hình ảnh câu hỏi"
   },
   {
+   "depends_on": "eval:doc.question_type=='Trắc nghiệm'",
    "fieldname": "section_break_2",
    "fieldtype": "Section Break",
-   "label": "Đáp án (Dành cho trắc nghiệm)",
-   "depends_on": "eval:doc.question_type=='Trắc nghiệm'"
+   "label": "Đáp án (Dành cho trắc nghiệm)"
   },
   {
    "fieldname": "option_a",
@@ -121,17 +122,43 @@
    "fieldname": "explanation",
    "fieldtype": "Text Editor",
    "label": "Lời giải/Hướng dẫn"
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Hoạt động",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Trạng thái",
+   "options": "Hoạt động\nLưu trữ"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-13 10:00:00.000000",
+ "modified": "2026-01-13 10:00:00",
  "modified_by": "Administrator",
  "module": "Exam Management",
  "name": "Exam Question",
+ "naming_rule": "By fieldname",
+ "autoname": "field:question_code",
  "owner": "Administrator",
- "permissions": [],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
  "sort_field": "modified",
- "sort_order": "ASC",
+ "sort_order": "DESC",
  "track_changes": 1
 }

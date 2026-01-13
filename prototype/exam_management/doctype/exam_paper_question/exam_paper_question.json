@@ -1,0 +1,63 @@
+{
+ "actions": [],
+ "creation": "2026-01-13 10:00:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "istable": 1,
+ "field_order": [
+  "question_number",
+  "question",
+  "column_break_1",
+  "question_text",
+  "marks"
+ ],
+ "fields": [
+  {
+   "fieldname": "question_number",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "S\u1ed1 th\u1ee9 t\u1ef1",
+   "reqd": 1
+  },
+  {
+   "fieldname": "question",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "C\u00e2u h\u1ecfi",
+   "options": "Exam Question",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "question.question_text",
+   "fieldname": "question_text",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "N\u1ed9i dung",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "question.marks",
+   "fieldname": "marks",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "\u0110i\u1ec3m",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-13 10:00:00",
+ "modified_by": "Administrator",
+ "module": "Exam Management",
+ "name": "Exam Paper Question",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "ASC",
+ "track_changes": 1
+}
