@@ -1,0 +1,61 @@
+{
+ "actions": [],
+ "creation": "2026-01-13 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "istable": 1,
+ "field_order": [
+  "participant",
+  "participant_name",
+  "column_break_1",
+  "seat_number",
+  "attendance"
+ ],
+ "fields": [
+  {
+   "fieldname": "participant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Thí sinh",
+   "options": "Exam Participant",
+   "reqd": 1
+  },
+  {
+   "fieldname": "participant_name",
+   "fieldtype": "Data",
+   "fetch_from": "participant.participant_name",
+   "in_list_view": 1,
+   "label": "Tên thí sinh",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "seat_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Số báo danh"
+  },
+  {
+   "fieldname": "attendance",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Có mặt",
+   "default": 0
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-13 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Exam Management",
+ "name": "Exam Session Participant",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "ASC",
+ "track_changes": 1
+}

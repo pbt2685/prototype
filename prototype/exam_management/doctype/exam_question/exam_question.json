@@ -1,0 +1,137 @@
+{
+ "actions": [],
+ "creation": "2026-01-13 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "istable": 1,
+ "field_order": [
+  "question_number",
+  "question_text",
+  "question_type",
+  "column_break_1",
+  "marks",
+  "difficulty_level",
+  "section_break_1",
+  "question_image",
+  "section_break_2",
+  "option_a",
+  "option_b",
+  "option_c",
+  "option_d",
+  "column_break_2",
+  "correct_answer",
+  "section_break_3",
+  "explanation"
+ ],
+ "fields": [
+  {
+   "fieldname": "question_number",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Số thứ tự",
+   "reqd": 1
+  },
+  {
+   "fieldname": "question_text",
+   "fieldtype": "Long Text",
+   "in_list_view": 1,
+   "label": "Nội dung câu hỏi",
+   "reqd": 1
+  },
+  {
+   "fieldname": "question_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Loại câu hỏi",
+   "options": "Trắc nghiệm\nĐúng/Sai\nTự luận\nĐiền khuyết",
+   "default": "Trắc nghiệm",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "marks",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Điểm",
+   "reqd": 1
+  },
+  {
+   "fieldname": "difficulty_level",
+   "fieldtype": "Select",
+   "label": "Độ khó",
+   "options": "Dễ\nTrung bình\nKhó",
+   "default": "Trung bình"
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "Hình ảnh"
+  },
+  {
+   "fieldname": "question_image",
+   "fieldtype": "Attach Image",
+   "label": "Hình ảnh câu hỏi"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Đáp án (Dành cho trắc nghiệm)",
+   "depends_on": "eval:doc.question_type=='Trắc nghiệm'"
+  },
+  {
+   "fieldname": "option_a",
+   "fieldtype": "Long Text",
+   "label": "Đáp án A"
+  },
+  {
+   "fieldname": "option_b",
+   "fieldtype": "Long Text",
+   "label": "Đáp án B"
+  },
+  {
+   "fieldname": "option_c",
+   "fieldtype": "Long Text",
+   "label": "Đáp án C"
+  },
+  {
+   "fieldname": "option_d",
+   "fieldtype": "Long Text",
+   "label": "Đáp án D"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "correct_answer",
+   "fieldtype": "Select",
+   "label": "Đáp án đúng",
+   "options": "A\nB\nC\nD"
+  },
+  {
+   "fieldname": "section_break_3",
+   "fieldtype": "Section Break",
+   "label": "Giải thích"
+  },
+  {
+   "fieldname": "explanation",
+   "fieldtype": "Text Editor",
+   "label": "Lời giải/Hướng dẫn"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-13 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Exam Management",
+ "name": "Exam Question",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "ASC",
+ "track_changes": 1
+}

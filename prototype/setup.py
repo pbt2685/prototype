@@ -11,7 +11,7 @@ def setup_website():
     frappe.db.set_value("Website Settings", "Website Settings", "app_logo", logo_white_url)
     frappe.db.set_value("Website Settings", "Website Settings", "splash_image", logo_url)
     frappe.db.set_value("Website Settings", "Website Settings", "app_name", "FaceNet Prototype")
-	frappe.db.set_value("System Settings", "System Settings", "language", "vi")
+    frappe.db.set_value("System Settings", "System Settings", "language", "vi")
     frappe.db.commit()
 
     print("✅ Cài đặt logo & tên app và ngôn ngữ thành công.")
