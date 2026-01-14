@@ -1,0 +1,91 @@
+{
+ "actions": [],
+ "creation": "2025-01-14 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "participant",
+  "participant_name",
+  "total_score",
+  "correct_answers",
+  "percentage",
+  "pass_status",
+  "rank",
+  "time_taken"
+ ],
+ "fields": [
+  {
+   "fieldname": "participant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Th\u00ed Sinh",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "participant.full_name",
+   "fieldname": "participant_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "T\u00ean Th\u00ed Sinh",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_score",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "T\u1ed5ng \u0110i\u1ec3m",
+   "precision": 2,
+   "reqd": 1
+  },
+  {
+   "fieldname": "correct_answers",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "S\u1ed1 C\u00e2u \u0110\u00fang",
+   "reqd": 1
+  },
+  {
+   "fieldname": "percentage",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Ph\u1ea7n Tr\u0103m (%)",
+   "precision": 2,
+   "reqd": 1
+  },
+  {
+   "fieldname": "pass_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "K\u1ebft Qu\u1ea3",
+   "options": "\nPass\nFail",
+   "reqd": 1
+  },
+  {
+   "fieldname": "rank",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "X\u1ebfp H\u1ea1ng",
+   "read_only": 1
+  },
+  {
+   "fieldname": "time_taken",
+   "fieldtype": "Duration",
+   "label": "Th\u1eddi Gian L\u00e0m B\u00e0i",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-01-14 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Exam Management",
+ "name": "Participant Score",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

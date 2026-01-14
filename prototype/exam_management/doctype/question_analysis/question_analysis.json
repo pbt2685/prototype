@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "creation": "2025-01-14 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "question",
+  "question_text",
+  "correct_count",
+  "total_attempts",
+  "correct_percentage",
+  "difficulty_level"
+ ],
+ "fields": [
+  {
+   "fieldname": "question",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "C\u00e2u H\u1ecfi",
+   "options": "Exam Question",
+   "reqd": 1
+  },
+  {
+   "fieldname": "question_text",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "N\u1ed9i Dung C\u00e2u H\u1ecfi",
+   "read_only": 1
+  },
+  {
+   "fieldname": "correct_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "S\u1ed1 L\u01b0\u1ee3ng \u0110\u00fang",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_attempts",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "T\u1ed5ng S\u1ed1 Th\u00ed Sinh",
+   "read_only": 1
+  },
+  {
+   "fieldname": "correct_percentage",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "T\u1ef7 L\u1ec7 \u0110\u00fang (%)",
+   "precision": 2,
+   "read_only": 1
+  },
+  {
+   "fieldname": "difficulty_level",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "\u0110\u1ed9 Kh\u00f3",
+   "options": "\nEasy\nMedium\nHard",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-01-14 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Exam Management",
+ "name": "Question Analysis",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

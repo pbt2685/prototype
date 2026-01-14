@@ -53,18 +53,21 @@
    "fieldname": "total_marks",
    "fieldtype": "Int",
    "label": "T\u1ed5ng \u0111i\u1ec3m",
+   "default": 10,
    "reqd": 1
   },
   {
    "fieldname": "passing_marks",
    "fieldtype": "Int",
    "label": "\u0110i\u1ec3m \u0111\u1ea1t",
+   "default": 5,
    "reqd": 1
   },
   {
    "fieldname": "duration",
    "fieldtype": "Int",
    "label": "Th\u1eddi l\u01b0\u1ee3ng (ph\u00fat)",
+   "default": 120,
    "reqd": 1
   },
   {

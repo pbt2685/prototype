@@ -1,0 +1,90 @@
+module:
+  id: M001
+  name: exam_management
+  name_vi: "Quản Lý Thi"
+  description: "Hệ thống quản lý thi trắc nghiệm và đánh giá"
+  priority: P0
+  status: active
+  owner: exam_admin
+
+features:
+  - id: F001
+    name: "Exam Question Management"
+    name_vi: "Quản Lý Câu Hỏi Thi"
+    status: active
+    components: [DT001, DT002]
+  
+  - id: F002
+    name: "Exam Paper Management"
+    name_vi: "Quản Lý Đề Thi"
+    status: active
+    components: [DT003, DT004]
+  
+  - id: F003
+    name: "Exam Session Management"
+    name_vi: "Quản Lý Phiên Thi"
+    status: active
+    components: [DT005, DT006]
+  
+  - id: F004
+    name: "Score Report Generation"
+    name_vi: "Tạo Báo Cáo Điểm"
+    status: active
+    components: [DT007, RPT001, RPT002]
+  
+  - id: F005
+    name: "Exam Session Lifecycle"  # NEW
+    name_vi: "Vòng Đời Phiên Thi"
+    status: planned
+    components: [DT005, DT006, DT007, API001, API002]
+
+components:
+  doctypes:
+    - DT001: Exam Question
+    - DT002: Exam Question (existing)
+    - DT003: Exam Paper
+    - DT004: Exam Paper Question
+    - DT005: Exam Session
+    - DT006: Exam Session Participant
+    - DT007: Exam Score Report
+  
+  reports:
+    - RPT001: Individual Score Report
+    - RPT002: Session Statistics Report
+  
+  apis:
+    - API001: start_exam_session  # NEW
+    - API002: submit_exam_answers  # NEW
+    - API003: end_exam_session  # NEW
+    - API004: get_session_status  # NEW
+
+integration:
+  depends_on:
+    - core.user
+    - core.file
+  
+  triggers:
+    - on_session_start: enable_answer_submission
+    - on_session_end: auto_generate_report  # Links to F004
+    - on_time_expiry: auto_end_session
+  
+  permissions:
+    - role: Exam Administrator
+      actions: [read, write, create, delete, submit, cancel, report, start_session, end_session]
+    - role: Teacher
+      actions: [read, write, report, start_session, end_session]
+    - role: Student
+      actions: [read_own, submit_answers]
+
+business_rules:
+  - BR-SES-001: "Cannot start session before scheduled time"
+  - BR-SES-002: "Cannot submit answers if session not active"
+  - BR-SES-003: "Cannot end session before minimum time elapsed"
+  - BR-SES-004: "Auto-end session when duration expires"
+  - BR-SES-005: "Cannot change answers after submission"
+  - BR-SES-006: "Auto-generate report on session completion"
+
+calculations:
+  - CR-SES-001: "remaining_time = end_time - current_time"
+  - CR-SES-002: "session_progress = (current_time - start_time) / duration"
+  - CR-SES-003: "submission_rate = submitted_count / total_participants"

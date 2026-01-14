@@ -185,6 +185,15 @@ after_migrate = "prototype.setup.cleanup_custom"
 # Scheduled Tasks
 # ---------------
 
+scheduler_events = {
+    "cron": {
+        # BR-SES-004: Auto-end expired sessions every 1 minute
+        "* * * * *": [
+            "prototype.exam_management.api.auto_end_expired_sessions"
+        ]
+    }
+}
+
 # scheduler_events = {
 # 	"all": [
 # 		"prototype.tasks.all"
