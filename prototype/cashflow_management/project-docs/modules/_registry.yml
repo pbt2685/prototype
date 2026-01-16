@@ -1,0 +1,159 @@
+# ============================================
+# MODULE REGISTRY - Cashflow Management System
+# ============================================
+# Project: ERPNext Cashflow & Profitability Management
+# Target: Software Development Company (Vietnam)
+# Strategy: Customize ERPNext HR, Project, CRM modules
+
+registry_version: "1.0"
+project_name: "Cashflow Management"
+project_code: "CFM"
+created_date: "2026-01-15"
+
+# ============================================
+# SCOPE: Phase 1 Implementation
+# ============================================
+# Excludes: Cash Reconciliation (deferred to Phase 2)
+
+modules:
+  - id: M001
+    name: "Core Setup"
+    description: "2-level org structure (Department → Team), Employee types"
+    status: active
+    priority: critical
+    dependencies: []
+    features: [F001]
+    estimated_effort: "2 days"
+    
+  - id: M002
+    name: "Employee Management"
+    description: "Employee lifecycle (Regular/Intern/Freelancer), Attendance, Leave, Performance"
+    status: active
+    priority: critical
+    dependencies: [M001]
+    features: [F002, F005, F006]
+    estimated_effort: "5 days"
+    
+  - id: M003
+    name: "Contract & Project Management"
+    description: "Contracts, Projects (Contract-based/R&D), Payment Terms"
+    status: active
+    priority: critical
+    dependencies: [M001]
+    features: [F003, F004]
+    estimated_effort: "4 days"
+    
+  - id: M004
+    name: "Expense Management"
+    description: "Expense tracking, BOD approval, Office expense grouping"
+    status: active
+    priority: high
+    dependencies: [M001, M003]
+    features: [F007]
+    estimated_effort: "3 days"
+    
+  - id: M005
+    name: "Salary & Payroll"
+    description: "Salary calculation by type, Bank export (Excel), Payment notes"
+    status: active
+    priority: critical
+    dependencies: [M001, M002]
+    features: [F008, F009]
+    estimated_effort: "5 days"
+    
+  - id: M006
+    name: "Debt Management & CRM"
+    description: "Customer contact hierarchy, Debt tracking, Escalation, Collection actions"
+    status: active
+    priority: high
+    dependencies: [M003]
+    features: [F010, F011, F012]
+    estimated_effort: "5 days"
+    
+  - id: M007
+    name: "Reporting & Analytics"
+    description: "Team performance, Cashflow forecast, Profitability by dept/team/project"
+    status: active
+    priority: high
+    dependencies: [M001, M002, M003, M004, M005, M006]
+    features: [F013, F014]
+    estimated_effort: "6 days"
+
+# ============================================
+# MODULE DEPENDENCY FLOW
+# ============================================
+# M001 (Core) → M002 (Employee), M003 (Contract/Project)
+# M002 + M003 → M004 (Expense), M005 (Salary)
+# M003 → M006 (Debt/CRM)
+# All → M007 (Reporting)
+
+# ============================================
+# TOTAL EFFORT: 30 days
+# ============================================
+
+erpnext_customizations:
+  hr_module:
+    - Employee: Add employee_type, daily_rate, payment_method
+    - Attendance: Add late_minutes, is_half_day
+    - Leave Application: Simplified approval
+    - Salary Structure: Separate for Regular/Intern/Freelancer
+    - Salary Slip: Add payment_method, payment_note
+    
+  project_module:
+    - Project: Add project_type, rd_budget, bonus_policy
+    - Project: Link to Team (not just Employee)
+    - Contract: Add payment_type, total_contract_value
+    
+  crm_module:
+    - Customer: Add contact hierarchy
+    - Communication: Link to debt collection actions
+    - Contact: Add contact level for escalation
+    
+  accounting_module:
+    - Payment Entry: Link to debt management
+    - Journal Entry: Track tax deductions
+
+new_doctypes:
+  - Team (M001)
+  - Performance Rating (M002)
+  - Payment Schedule (M003)
+  - Expense (M004)
+  - Grouped Expense Item (M004)
+  - Salary Table (M005)
+  - Salary Table Item (M005)
+  - Customer Contact Hierarchy (M006)
+  - Debt Management (M006)
+  - Collection Action (M006)
+  - Escalation Rule (M006)
+  - Team Performance Report (M007)
+
+localization:
+  language: "vi"
+  currency: "VND"
+  date_format: "dd-mm-yyyy"
+  number_format: "#,###.##"
+  
+compliance:
+  tax: "Vietnam Tax Law"
+  social_security: "BHXH Vietnam"
+  labor_law: "Vietnam Labor Code"
+
+phase_2_deferred:
+  - M008: Cash Reconciliation & Compliance
+  - F015: Cash Reconciliation
+  reason: "Complexity - focus on core cashflow management first"
+  
+notes: |
+  This Phase 1 implementation covers:
+  - Core organizational structure
+  - Employee management (3 types)
+  - Contract & project tracking
+  - Expense management with BOD approval
+  - Salary processing with bank export
+  - Debt management with escalation
+  - Team profitability & cashflow reporting
+  
+  Deferred to Phase 2:
+  - Cash reconciliation (book vs actual)
+  - Legal expense clearing
+  - Compliance reporting for cash payments

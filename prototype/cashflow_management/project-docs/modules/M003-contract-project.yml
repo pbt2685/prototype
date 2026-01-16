@@ -1,0 +1,132 @@
+# ============================================
+# M003: CONTRACT & PROJECT MANAGEMENT
+# ============================================
+
+module_id: M003
+module_name: "Contract & Project Management"
+version: "1.0"
+status: active
+
+description: |
+  Contract and project tracking with two project types:
+  Contract-based (revenue-generating) and Internal R&D (cost center).
+  Manages payment terms, milestones, delays, and links projects to teams.
+
+business_value: |
+  - Track revenue from contracts (long-term, monthly, one-time)
+  - Monitor R&D investment costs
+  - Forecast cashflow based on payment schedules
+  - Link income to specific teams for profitability
+
+features:
+  - F003: Contract Management (link to projects, payment terms)
+  - F004: Project Types (Contract-based vs Internal R&D)
+
+doctypes:
+  customized_erpnext:
+    - Contract (add: payment_type, total_contract_value)
+    - Project (add: project_type, rd_budget, bonus_policy, assigned_team)
+  
+  custom:
+    - Payment Schedule (milestone tracking)
+
+key_entities:
+  contract:
+    - Contract Type: Project | License
+    - Payment Type: Long-term | Monthly | One-time
+    - Contract Value
+    - Payment Terms (milestones)
+    - Customer
+  
+  project:
+    - Project Type: Contract-based | Internal R&D
+    - Linked Contract (if contract-based)
+    - Team assignment
+    - Bonus Policy (% of profit)
+    - R&D Budget (if internal)
+    - Status: On-time | Delayed
+  
+  payment_schedule:
+    - Milestone name
+    - Expected date
+    - Amount
+    - Actual date (when received)
+    - Delay days
+    - Status: Pending | Received | Overdue
+
+relationships:
+  - Contract (1) ←─── (N) Project
+  - Contract (1) ←─── (N) Payment Schedule
+  - Project (N) ←─── (1) Team
+  - Project (N) ←─── (N) Employee
+
+business_rules:
+  - BR-CONTRACT-001: Payment terms must sum to contract value
+  - BR-CONTRACT-002: Payment type determines revenue recognition
+  - BR-PROJECT-001: Contract-based project must have Contract
+  - BR-PROJECT-002: Internal R&D project must have Budget
+  - BR-PROJECT-003: R&D project cannot have Contract
+  - BR-PAY-001: Payment overdue > 30 days → flag for follow-up
+  - BR-PAY-002: Project delayed → extend payment dates proportionally
+  
+  calculations:
+    - CR-PROJECT-INCOME-001: |
+        Contract-based Project Income = Contract Value
+    - CR-PROJECT-INCOME-002: |
+        Internal R&D Project Income = 0 (cost center)
+    - CR-PROJECT-PROFIT-001: |
+        Project Profit = Contract Value - (Labor Cost + Expenses + Bonus Pool)
+    - CR-BONUS-POOL-001: |
+        Bonus Pool = Project Profit × Bonus Policy %
+    - CR-DELAY-IMPACT-001: |
+        Payment Delay Impact = Days Delayed × Daily Operating Cost
+
+data_flow:
+  inputs:
+    - Contract details (customer, value, terms)
+    - Project details (type, team, budget)
+    - Payment milestones
+    - Actual payment dates
+  
+  outputs:
+    - Revenue by team
+    - R&D investment costs
+    - Payment forecast (adjusted for delays)
+    - Overdue payment alerts
+
+integration_points:
+  - M001: Project assigned to Team
+  - M002: Employee assigned to Project
+  - M004: Project expenses (R&D materials)
+  - M005: Project bonus pool → employee bonuses
+  - M006: Overdue payments → debt management
+  - M007: Project revenue/cost → profitability reports
+
+vietnamese_labels:
+  Contract: "Hợp Đồng"
+  Project: "Dự Án"
+  project_type: "Loại Dự Án"
+  Contract-based: "Có Hợp Đồng"
+  Internal R&D: "Nghiên Cứu Nội Bộ"
+  Payment Schedule: "Lịch Thanh Toán"
+  Payment Type: "Hình Thức Thanh Toán"
+  Long-term: "Dài Hạn"
+  Monthly: "Hàng Tháng"
+  One-time: "Một Lần"
+  rd_budget: "Ngân Sách R&D"
+  bonus_policy: "Chính Sách Thưởng"
+  Overdue: "Quá Hạn"
+  Pending: "Chờ Thanh Toán"
+  Received: "Đã Nhận"
+
+dependencies: [M001]
+
+priority: critical
+estimated_effort: "4 days"
+
+implementation_notes: |
+  - Project type (Contract vs R&D) fundamentally changes tracking approach
+  - Contract-based: Focus on revenue and profit
+  - R&D: Focus on budget compliance and cost control
+  - Payment schedule critical for cashflow forecasting
+  - Delay tracking helps adjust payment expectations

@@ -1,0 +1,594 @@
+# ============================================
+# BUSINESS RULES & CALCULATIONS
+# ============================================
+# Project: Cashflow Management System
+# Scope: Phase 1 (M001-M007)
+# ============================================
+
+# ============================================
+# M001: CORE SETUP
+# ============================================
+
+BR-TEAM-001:
+  name: "Team Must Belong to Department"
+  entity: Team
+  field: department
+  condition: "department IS NOT NULL"
+  error: "Nhóm phải thuộc một Phòng Ban"
+  trigger: validate
+
+BR-TEAM-002:
+  name: "Team Code Unique"
+  entity: Team
+  field: team_code
+  condition: "team_code IS UNIQUE"
+  error: "Mã nhóm đã tồn tại"
+  trigger: validate
+
+BR-DEPT-001:
+  name: "Department Code Unique"
+  entity: Department
+  field: department_code
+  condition: "department_code IS UNIQUE"
+  error: "Mã phòng ban đã tồn tại"
+  trigger: validate
+
+# ============================================
+# M002: EMPLOYEE MANAGEMENT
+# ============================================
+
+BR-EMP-001:
+  name: "Employee Type Cannot Change"
+  entity: Employee
+  field: employee_type
+  condition: "Once set, cannot be modified"
+  error: "Không thể thay đổi loại nhân viên"
+  trigger: validate
+  implementation: "Check if employee_type changed after first save"
+
+BR-EMP-002:
+  name: "Regular Employee Must Have Contract"
+  entity: Employee
+  field: employee_type
+  condition: "IF employee_type='Regular' THEN contract IS NOT NULL"
+  error: "Nhân viên chính thức phải có hợp đồng lao động"
+  trigger: validate
+
+BR-EMP-003:
+  name: "Intern Must Have Daily Rate"
+  entity: Employee
+  field: employee_type
+  condition: "IF employee_type='Intern' THEN daily_rate > 0"
+  error: "Thực tập sinh phải có đơn giá ngày"
+  trigger: validate
+
+BR-ATT-001:
+  name: "Late Attendance Threshold"
+  entity: Attendance
+  field: late_minutes
+  condition: "late_minutes > 15"
+  action: "Mark as late"
+  trigger: before_save
+
+BR-ATT-002:
+  name: "Late Attendance Alert"
+  entity: Attendance
+  condition: "Employee late > 3 times in month"
+  action: "Send alert to manager"
+  trigger: after_save
+
+BR-ATT-003:
+  name: "Intern Low Attendance Alert"
+  entity: Attendance
+  condition: "Intern attendance < 15 days in month"
+  action: "Send alert to manager"
+  trigger: monthly
+
+BR-LEAVE-001:
+  name: "Leave Cannot Exceed Balance"
+  entity: Leave Application
+  field: total_leave_days
+  condition: "total_leave_days <= leave_balance"
+  error: "Số ngày nghỉ vượt quá số dư phép"
+  trigger: validate
+
+BR-LEAVE-002:
+  name: "Excessive Leave Alert"
+  entity: Leave Application
+  condition: "Total leave > 10 days in month"
+  action: "Send alert to manager"
+  trigger: after_submit
+
+BR-PERF-001:
+  name: "Performance Rating Required for Intern Salary"
+  entity: Performance Rating
+  condition: "Intern must have performance rating for salary month"
+  error: "Chưa có đánh giá hiệu suất cho tháng này"
+  trigger: salary_calculation
+
+BR-PERF-002:
+  name: "BOD Can Override Any Rating"
+  entity: Performance Rating
+  field: rating_score
+  condition: "User with role 'BOD' can modify"
+  trigger: permission
+
+BR-PERF-003:
+  name: "Rating Scale Validation"
+  entity: Performance Rating
+  field: rating_score
+  condition: "rating_score BETWEEN 1 AND 5"
+  error: "Điểm đánh giá phải từ 1 đến 5"
+  trigger: validate
+
+# ============================================
+# M003: CONTRACT & PROJECT
+# ============================================
+
+BR-CONTRACT-001:
+  name: "Payment Terms Must Sum to Contract Value"
+  entity: Payment Schedule
+  condition: "SUM(milestone_amount) = contract.total_contract_value"
+  error: "Tổng các khoản thanh toán phải bằng giá trị hợp đồng"
+  trigger: validate
+
+BR-CONTRACT-002:
+  name: "Payment Type Determines Revenue Recognition"
+  entity: Contract
+  field: payment_type
+  implementation: |
+    Long-term: Amortize over contract period
+    Monthly: Recognize monthly
+    One-time: Recognize on completion
+  trigger: accounting
+
+BR-PROJECT-001:
+  name: "Contract-based Project Must Have Contract"
+  entity: Project
+  field: project_type
+  condition: "IF project_type='Contract-based' THEN contract IS NOT NULL"
+  error: "Dự án có hợp đồng phải liên kết với Hợp Đồng"
+  trigger: validate
+
+BR-PROJECT-002:
+  name: "Internal R&D Must Have Budget"
+  entity: Project
+  field: project_type
+  condition: "IF project_type='Internal R&D' THEN rd_budget > 0"
+  error: "Dự án R&D nội bộ phải có ngân sách"
+  trigger: validate
+
+BR-PROJECT-003:
+  name: "R&D Project Cannot Have Contract"
+  entity: Project
+  field: project_type
+  condition: "IF project_type='Internal R&D' THEN contract IS NULL"
+  error: "Dự án R&D nội bộ không được có hợp đồng"
+  trigger: validate
+
+BR-PAY-001:
+  name: "Payment Overdue Follow-up"
+  entity: Payment Schedule
+  field: delay_days
+  condition: "delay_days > 30"
+  action: "Flag for follow-up, create debt management"
+  trigger: daily_check
+
+BR-PAY-002:
+  name: "Project Delay Extends Payments"
+  entity: Project
+  field: project_status
+  condition: "IF project_status='Delayed'"
+  action: "Adjust payment schedule dates proportionally"
+  trigger: status_change
+
+# ============================================
+# M004: EXPENSE MANAGEMENT
+# ============================================
+
+BR-EXP-001:
+  name: "All Expenses Need BOD Approval"
+  entity: Expense
+  field: approval_status
+  condition: "approval_status = 'Approved' before posting"
+  error: "Chi phí phải được BGĐ duyệt"
+  trigger: before_submit
+
+BR-EXP-002:
+  name: "Only Finance Can Create Expenses"
+  entity: Expense
+  permission: "Only users with 'Finance' role"
+  trigger: permission
+
+BR-EXP-003:
+  name: "Grouped Expenses Same Category"
+  entity: Expense
+  field: expense_type
+  condition: "IF expense_type='Grouped' THEN all items same category"
+  error: "Chi phí gộp nhóm phải cùng danh mục"
+  trigger: validate
+
+BR-EXP-004:
+  name: "Grouped Expenses Same Month"
+  entity: Expense
+  field: expense_type
+  condition: "IF expense_type='Grouped' THEN all items same month"
+  error: "Chi phí gộp nhóm phải cùng tháng"
+  trigger: validate
+
+BR-EXP-005:
+  name: "Office Expense Grouping Threshold"
+  entity: Expense
+  field: category
+  condition: "IF category='Office' AND amount < threshold THEN can group"
+  note: "Threshold to be defined (e.g., 5,000,000 VND)"
+  trigger: validate
+
+BR-EXP-006:
+  name: "R&D Expenses Must Link to Project"
+  entity: Expense
+  field: category
+  condition: "IF category='R&D' THEN allocated_project IS NOT NULL"
+  error: "Chi phí R&D phải liên kết với dự án"
+  trigger: validate
+
+BR-EXP-007:
+  name: "Cannot Delete Approved Expenses"
+  entity: Expense
+  field: approval_status
+  condition: "IF approval_status='Approved' THEN cannot delete"
+  error: "Không thể xóa chi phí đã duyệt"
+  trigger: before_delete
+
+# ============================================
+# M005: SALARY & PAYROLL
+# ============================================
+
+BR-SAL-001:
+  name: "Intern Needs Attendance for Salary"
+  entity: Salary Slip
+  condition: "IF employee_type='Intern' THEN attendance records exist"
+  error: "Chưa có dữ liệu chấm công cho thực tập sinh"
+  trigger: salary_calculation
+
+BR-SAL-002:
+  name: "Intern Needs Performance Rating"
+  entity: Salary Slip
+  condition: "IF employee_type='Intern' THEN performance rating exists for period"
+  error: "Chưa có đánh giá hiệu suất cho thực tập sinh"
+  trigger: salary_calculation
+
+BR-SAL-003:
+  name: "Salary Table Needs Approval Before Export"
+  entity: Salary Table
+  field: export_status
+  condition: "export_status='Approved' before export"
+  error: "Bảng lương phải được duyệt trước khi xuất"
+  trigger: before_export
+
+BR-SAL-004:
+  name: "Payment Note Character Limit"
+  entity: Salary Slip
+  field: payment_note
+  condition: "LENGTH(payment_note) <= 200"
+  error: "Ghi chú thanh toán không được quá 200 ký tự"
+  trigger: validate
+
+BR-SAL-005:
+  name: "Regular Employees Need Social Security"
+  entity: Salary Slip
+  condition: "IF employee_type='Regular' THEN calculate social security"
+  trigger: salary_calculation
+
+BR-SAL-006:
+  name: "Freelancer Tax Withholding"
+  entity: Salary Slip
+  condition: "IF employee_type='Freelancer' THEN apply tax withholding (10%)"
+  trigger: salary_calculation
+
+BR-SAL-007:
+  name: "Intern Payments Non-Deductible"
+  entity: Salary Slip
+  condition: "IF employee_type='Intern' THEN flag as non-deductible"
+  note: "For tax compliance"
+  trigger: after_save
+
+# ============================================
+# M006: DEBT MANAGEMENT
+# ============================================
+
+BR-DEBT-001:
+  name: "Auto-Create Debt on Payment Overdue"
+  entity: Payment Schedule
+  condition: "IF actual_date > expected_date OR actual_date IS NULL"
+  action: "Create Debt Management record"
+  trigger: daily_check
+
+BR-DEBT-002:
+  name: "Auto-Escalate Based on Days Overdue"
+  entity: Debt Management
+  field: days_overdue
+  condition: "Based on Escalation Rules"
+  action: "Increase escalation_level, notify contacts"
+  trigger: daily_check
+
+BR-DEBT-003:
+  name: "Cannot Close Debt with Outstanding Amount"
+  entity: Debt Management
+  field: current_status
+  condition: "IF outstanding_amount > 0 THEN status != 'Resolved'"
+  error: "Không thể đóng công nợ khi còn dư nợ"
+  trigger: validate
+
+BR-DEBT-004:
+  name: "Escalation Triggers Notification"
+  entity: Debt Management
+  field: escalation_level
+  action: "Send notification to customer contact at appropriate level"
+  trigger: after_save
+
+BR-ESCALATE-001:
+  name: "Level 0 - Monitoring"
+  condition: "days_overdue BETWEEN 0 AND 15"
+  action: "Monitor only, no action required"
+
+BR-ESCALATE-002:
+  name: "Level 1 - Account Manager"
+  condition: "days_overdue BETWEEN 16 AND 30"
+  action: "Assign to Account Manager, contact Level 1"
+
+BR-ESCALATE-003:
+  name: "Level 2 - Finance Manager"
+  condition: "days_overdue BETWEEN 31 AND 60"
+  action: "Escalate to Finance Manager, contact Level 2"
+
+BR-ESCALATE-004:
+  name: "Level 3 - CFO/Legal"
+  condition: "days_overdue > 60"
+  action: "Escalate to CFO, contact Level 3, consider legal action"
+
+BR-ACTION-001:
+  name: "No Action Reminder"
+  entity: Debt Management
+  condition: "No collection action in 7 days"
+  action: "Send reminder to assigned person"
+  trigger: daily_check
+
+BR-ACTION-002:
+  name: "Completed Action Needs Notes"
+  entity: Collection Action
+  field: action_status
+  condition: "IF action_status='Completed' THEN outcome IS NOT NULL"
+  error: "Hành động hoàn thành phải có ghi chú kết quả"
+  trigger: validate
+
+BR-ACTION-003:
+  name: "Failed Action Needs Followup"
+  entity: Collection Action
+  field: action_status
+  condition: "IF action_status='Failed' THEN followup_date IS NOT NULL"
+  error: "Hành động thất bại phải có ngày theo dõi tiếp"
+  trigger: validate
+
+# ============================================
+# M007: REPORTING
+# ============================================
+
+BR-REPORT-001:
+  name: "R&D Teams Show Negative Profit"
+  entity: Team Performance Report
+  condition: "IF team.is_revenue_generating = 0"
+  display: "Loss = -Total Cost (investment)"
+  trigger: report_generation
+
+BR-REPORT-002:
+  name: "Team Margin Not Applicable for R&D"
+  entity: Team Performance Report
+  condition: "IF team.is_revenue_generating = 0"
+  display: "Margin = N/A - Investment"
+  trigger: report_generation
+
+BR-REPORT-003:
+  name: "Cashflow Forecast Updates Daily"
+  entity: Cashflow Forecast
+  condition: "Refresh forecast data daily"
+  trigger: daily_schedule
+
+BR-REPORT-004:
+  name: "Debt Risk Reduces Expected Inflow"
+  entity: Cashflow Forecast
+  condition: "Apply probability factor based on escalation level"
+  trigger: calculation
+
+BR-REPORT-005:
+  name: "BOD Approval for Budget Variance Reports"
+  entity: Budget Variance Report
+  condition: "Requires BOD approval if variance > threshold"
+  trigger: report_generation
+
+# ============================================
+# CALCULATIONS
+# ============================================
+
+CR-EMP-COST-001:
+  name: "Regular Employee Cost"
+  entity: Employee
+  field: total_cost
+  formula: "Base Salary + Employer Social Security (17.5%) + Bonus + Allocated Office Cost"
+  trigger: monthly_calculation
+
+CR-EMP-COST-002:
+  name: "Intern Cost"
+  entity: Employee
+  field: total_cost
+  formula: "(Daily Rate × Days Attended × Performance Factor) + Bonus"
+  performance_factors:
+    rating_1: 0.6
+    rating_2: 0.8
+    rating_3: 1.0
+    rating_4: 1.2
+    rating_5: 1.5
+  trigger: monthly_calculation
+
+CR-EMP-COST-003:
+  name: "Freelancer Cost"
+  entity: Employee
+  field: total_cost
+  formula: "Project Fee OR (Hourly Rate × Hours)"
+  trigger: project_completion
+
+CR-DELAY-001:
+  name: "Calculate Payment Delay Days"
+  entity: Payment Schedule
+  field: delay_days
+  formula: "IF actual_date THEN (actual_date - expected_date) ELSE (current_date - expected_date)"
+  trigger: daily_calculation
+
+CR-DEBT-OVERDUE-001:
+  name: "Calculate Days Overdue"
+  entity: Debt Management
+  field: days_overdue
+  formula: "current_date - due_date"
+  trigger: daily_calculation
+
+CR-DEBT-RISK-001:
+  name: "Payment Probability by Escalation"
+  entity: Debt Management
+  field: payment_probability
+  formula: |
+    Level 0-1: 95%
+    Level 2: 80%
+    Level 3: 50%
+  usage: "Cashflow forecast adjustment"
+
+CR-PAYMENT-NOTE-001:
+  name: "Generate Payment Note"
+  entity: Salary Slip
+  field: payment_note
+  format: "Lương tháng [MM/YYYY]: LCB [base], PC [allowances], KT [deductions], Thưởng [bonus]"
+  example: "Lương tháng 01/2026: LCB 15,000,000, PC 2,000,000, KT -3,500,000, Thưởng 5,000,000"
+  max_length: 200
+  trigger: before_save
+
+CR-TEAM-INCOME-001:
+  name: "Calculate Team Income"
+  entity: Team
+  formula: |
+    IF is_revenue_generating = 1:
+      Income = SUM(Contract Values for assigned projects)
+    ELSE:
+      Income = 0 (R&D team - cost center)
+  trigger: monthly_calculation
+
+CR-TEAM-COST-001:
+  name: "Calculate Team Cost"
+  entity: Team
+  formula: |
+    Labor Cost = SUM(Employee Costs for team members)
+    Direct Expenses = SUM(Expenses allocated to team)
+    Shared Expenses = (Total Office + Marketing Expenses) / Number of Teams
+    R&D Expenses = SUM(R&D expenses for team projects)
+    Total Cost = Labor + Direct + Shared + R&D
+  trigger: monthly_calculation
+
+CR-TEAM-PROFIT-001:
+  name: "Calculate Team Profit"
+  entity: Team
+  formula: |
+    IF is_revenue_generating = 1:
+      Profit = Income - Total Cost
+      Margin % = (Profit / Income) × 100
+    ELSE:
+      Loss = -Total Cost (investment)
+      Margin = N/A
+  trigger: monthly_calculation
+
+CR-BONUS-POOL-001:
+  name: "Calculate Project Bonus Pool"
+  entity: Project
+  formula: "Project Profit × bonus_policy_percent / 100"
+  trigger: project_completion
+
+CR-SALARY-REGULAR-001:
+  name: "Regular Employee Salary"
+  entity: Salary Slip
+  formula: |
+    Gross = Base Salary + Allowances
+    Employee SS = Gross × 10.5%
+    Employer SS = Gross × 17.5%
+    Taxable = Gross - 11,000,000 - Employee SS
+    Tax = Taxable × Tax Rate (progressive)
+    Net = Gross - Employee SS - Tax + Bonus
+  trigger: salary_processing
+
+CR-SALARY-INTERN-001:
+  name: "Intern Salary"
+  entity: Salary Slip
+  formula: |
+    Base = Daily Rate × Days Attended
+    Performance Factor = [0.6, 0.8, 1.0, 1.2, 1.5] based on rating [1-5]
+    Adjusted = Base × Performance Factor
+    Net = Adjusted + Project Bonus
+    Payment Method = Cash
+  trigger: salary_processing
+
+CR-SALARY-FREELANCER-001:
+  name: "Freelancer Payment"
+  entity: Salary Slip
+  formula: |
+    Gross = Project Fee OR (Hourly Rate × Hours)
+    Tax Withholding = Gross × 10% (if applicable)
+    Net = Gross - Tax Withholding
+    Payment Method = Bank
+  trigger: salary_processing
+
+CR-CASHFLOW-INFLOW-001:
+  name: "Calculate Expected Cash Inflow"
+  entity: Cashflow Forecast
+  formula: |
+    For each payment milestone:
+      Base Expected Date = Milestone Due Date
+      
+      IF customer has history:
+        Adjusted Date = Base + Average Customer Delay
+      
+      IF debt escalation level > 1:
+        Probability Factor = 0.95 (L0) | 0.80 (L2) | 0.50 (L3)
+        Expected Amount = Milestone Amount × Probability
+      
+      Total Inflow [Month] = SUM(Expected Amounts for that month)
+  trigger: daily_calculation
+
+CR-CASHFLOW-OUTFLOW-001:
+  name: "Calculate Expected Cash Outflow"
+  entity: Cashflow Forecast
+  formula: |
+    Salary Cost = SUM(All employee net pay for month)
+    Bonus = SUM(Project bonuses if milestone achieved)
+    Social Security = SUM(Regular employees SS)
+    Expenses = SUM(Approved expenses for month)
+    R&D = SUM(R&D project budgets / project duration)
+    
+    Total Outflow [Month] = Salary + Bonus + SS + Expenses + R&D
+  trigger: daily_calculation
+
+CR-CASHFLOW-NET-001:
+  name: "Calculate Net Cashflow"
+  entity: Cashflow Forecast
+  formula: |
+    Net Cashflow [Month] = Inflow - Outflow
+    Cumulative Cash = Previous Balance + Net Cashflow
+  trigger: daily_calculation
+
+CR-CASHFLOW-RISK-001:
+  name: "Assess Cashflow Risk"
+  entity: Cashflow Forecast
+  formula: |
+    High Risk: Cumulative Cash < 1 month operating cost
+    Medium Risk: Cumulative Cash < 2 months operating cost
+    Low Risk: Cumulative Cash > 2 months operating cost
+  trigger: daily_calculation
+
+# ============================================
+# END OF BUSINESS RULES
+# ============================================

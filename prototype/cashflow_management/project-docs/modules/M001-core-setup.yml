@@ -1,0 +1,82 @@
+# ============================================
+# M001: CORE SETUP
+# ============================================
+
+module_id: M001
+module_name: "Core Setup"
+version: "1.0"
+status: active
+
+description: |
+  Foundation module providing 2-level organizational structure
+  (Department → Team) and employee type classification system.
+  Enables cost allocation and profitability tracking by team.
+
+business_value: |
+  - Track profitability at team level (FotoFinder, DGX, VTT)
+  - Allocate costs accurately to revenue-generating vs R&D teams
+  - Support multi-team management within departments
+
+features:
+  - F001: Department & Team Master
+
+doctypes:
+  custom:
+    - Team
+  
+  customized_erpnext:
+    - Department (add team relationship)
+    - Employee (add team assignment)
+
+key_entities:
+  - Department (Level 1): Outsourcing, R&D, Internal
+  - Team (Level 2): FotoFinder, DGX, VTT, Internal R&D
+  - Employee assignment to Team
+
+relationships:
+  - Department (1) ←─── (N) Team
+  - Team (1) ←─── (N) Employee (primary assignment)
+  - Team (N) ←─── (N) Project (team can handle multiple projects)
+
+business_rules:
+  - BR-TEAM-001: Team must belong to one Department
+  - BR-TEAM-002: Employee must have one primary Team
+  - BR-DEPT-001: Department code must be unique
+
+data_flow:
+  inputs:
+    - Department structure
+    - Team definitions
+    - Employee-Team assignments
+  
+  outputs:
+    - Cost center hierarchy
+    - Team-based reporting foundation
+
+integration_points:
+  - M002: Employee assigned to Team
+  - M003: Project assigned to Team
+  - M004: Expenses allocated to Team
+  - M005: Salary costs allocated to Team
+  - M007: Team performance reports
+
+vietnamese_labels:
+  Department: "Phòng Ban"
+  Team: "Nhóm"
+  Employee: "Nhân Viên"
+  department_code: "Mã Phòng Ban"
+  team_code: "Mã Nhóm"
+  team_lead: "Trưởng Nhóm"
+  is_revenue_generating: "Tạo Ra Doanh Thu"
+  active: "Đang Hoạt Động"
+
+dependencies: []
+
+priority: critical
+estimated_effort: "2 days"
+
+implementation_notes: |
+  - Use existing ERPNext Department with custom fields
+  - Create new Team DocType as child of Department
+  - Team structure is flexible - can add more teams as needed
+  - Revenue generating flag helps differentiate contract teams from R&D

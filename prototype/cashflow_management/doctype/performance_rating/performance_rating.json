@@ -1,0 +1,230 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:PERF-{employee}-{YYYY}-{MM}",
+ "creation": "2026-01-15 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "employee_name",
+  "employee_type",
+  "column_break_1",
+  "team",
+  "department",
+  "rating_period",
+  "section_break_rating",
+  "rating_score",
+  "performance_factor",
+  "column_break_rating",
+  "rating_by",
+  "rating_date",
+  "is_overridden_by_bod",
+  "section_break_comments",
+  "manager_comments",
+  "column_break_comments",
+  "bod_comments",
+  "section_break_readonly",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Nh\u00e2n Vi\u00ean",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "T\u00ean Nh\u00e2n Vi\u00ean",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.employee_type",
+   "fieldname": "employee_type",
+   "fieldtype": "Data",
+   "label": "Lo\u1ea1i Nh\u00e2n Vi\u00ean",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "employee.primary_team",
+   "fieldname": "team",
+   "fieldtype": "Link",
+   "label": "Nh\u00f3m",
+   "options": "Team",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.department",
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Ph\u00f2ng Ban",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rating_period",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Th\u00e1ng \u0110\u00e1nh Gi\u00e1",
+   "reqd": 1,
+   "description": "Ch\u1ecdn m\u1ed9t ng\u00e0y b\u1ea5t k\u1ef3 trong th\u00e1ng (ch\u1ec9 d\u00f9ng th\u00e1ng/n\u0103m)"
+  },
+  {
+   "fieldname": "section_break_rating",
+   "fieldtype": "Section Break",
+   "label": "\u0110\u00e1nh Gi\u00e1"
+  },
+  {
+   "fieldname": "rating_score",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "\u0110i\u1ec3m \u0110\u00e1nh Gi\u00e1",
+   "options": "1\n2\n3\n4\n5",
+   "reqd": 1
+  },
+  {
+   "depends_on": "rating_score",
+   "fieldname": "performance_factor",
+   "fieldtype": "Float",
+   "label": "H\u1ec7 S\u1ed1 Hi\u1ec7u Su\u1ea5t",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_rating",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "rating_by",
+   "fieldtype": "Link",
+   "label": "\u0110\u00e1nh Gi\u00e1 B\u1edfi",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rating_date",
+   "fieldtype": "Date",
+   "label": "Ng\u00e0y \u0110\u00e1nh Gi\u00e1",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_overridden_by_bod",
+   "fieldtype": "Check",
+   "label": "B\u1ecb BOD Ghi \u0110\u00e8",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_comments",
+   "fieldtype": "Section Break",
+   "label": "Nh\u1eadn X\u00e9t"
+  },
+  {
+   "fieldname": "manager_comments",
+   "fieldtype": "Text Editor",
+   "label": "Nh\u1eadn X\u00e9t Qu\u1ea3n L\u00fd"
+  },
+  {
+   "fieldname": "column_break_comments",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "is_overridden_by_bod",
+   "fieldname": "bod_comments",
+   "fieldtype": "Text Editor",
+   "label": "Nh\u1eadn X\u00e9t BOD"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_readonly",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Performance Rating",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-01-15 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Cashflow Management",
+ "name": "Performance Rating",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Projects Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee"
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "employee_name",
+ "track_changes": 1
+}

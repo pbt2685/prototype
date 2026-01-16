@@ -1,0 +1,111 @@
+# ============================================
+# M004: EXPENSE MANAGEMENT
+# ============================================
+
+module_id: M004
+module_name: "Expense Management"
+version: "1.0"
+status: active
+
+description: |
+  Simplified expense tracking with mandatory BOD approval.
+  Finance initiates all expenses, small office expenses can be
+  grouped monthly before submission for efficiency.
+
+business_value: |
+  - Centralized expense control (BOD approval)
+  - Efficient processing of recurring office expenses
+  - Accurate cost allocation to teams/projects
+  - Support R&D expense tracking
+
+features:
+  - F007: Expense Management (Finance initiates, BOD approves, grouping)
+
+doctypes:
+  custom:
+    - Expense
+    - Grouped Expense Item
+  
+  customized_erpnext:
+    - None (standalone module)
+
+key_entities:
+  expense:
+    - Category: Office | Travel | Equipment | Marketing | R&D
+    - Type: Individual | Grouped (office expenses)
+    - Amount
+    - Project (if R&D expense)
+    - Team (allocation)
+    - Initiated by: Finance
+    - Approval Status: Draft → Pending BOD → Approved → Rejected
+    - Approval Date
+    - Approver: BOD member
+    - Notes/Description
+
+relationships:
+  - Expense (N) ←─── (1) Team (allocation)
+  - Expense (N) ←─── (1) Project (if R&D)
+  - Expense (N) ←─── (1) Approver (BOD)
+  - Expense (1) ←─── (N) Grouped Expense Item
+
+business_rules:
+  - BR-EXP-001: ALL expenses must be approved by BOD
+  - BR-EXP-002: Only Finance can create expenses
+  - BR-EXP-003: Grouped expenses must be same category
+  - BR-EXP-004: Grouped expenses must be same month
+  - BR-EXP-005: Office expenses < threshold can be grouped
+  - BR-EXP-006: R&D expenses must link to project
+  - BR-EXP-007: Cannot delete approved expenses
+  
+  calculations:
+    - CR-EXP-ALLOCATION-001: |
+        If no team specified:
+          Office/Marketing expenses = Allocated equally to all teams
+        If team specified:
+          Expense allocated 100% to that team
+    - CR-EXP-RD-001: |
+        R&D Expense must be within project R&D Budget
+
+data_flow:
+  inputs:
+    - Finance creates individual/grouped expenses
+    - BOD reviews and approves
+  
+  outputs:
+    - Approved expenses → cashflow forecast
+    - Team expense allocation
+    - R&D project expense tracking
+    - Approval audit trail
+
+integration_points:
+  - M001: Expenses allocated to Teams
+  - M003: R&D expenses linked to Projects
+  - M007: Expenses → Team performance, Cashflow forecast
+
+vietnamese_labels:
+  Expense: "Chi Phí"
+  Category: "Danh Mục"
+  Office: "Văn Phòng"
+  Travel: "Đi Lại"
+  Equipment: "Thiết Bị"
+  Marketing: "Marketing"
+  R&D: "Nghiên Cứu"
+  Type: "Loại"
+  Individual: "Đơn Lẻ"
+  Grouped: "Gộp Nhóm"
+  Approval Status: "Trạng Thái Duyệt"
+  Draft: "Nháp"
+  Pending BOD: "Chờ BGĐ Duyệt"
+  Approved: "Đã Duyệt"
+  Rejected: "Từ Chối"
+
+dependencies: [M001, M003]
+
+priority: high
+estimated_effort: "3 days"
+
+implementation_notes: |
+  - All expenses go through BOD - no exceptions
+  - Grouping feature reduces approval burden for small recurring costs
+  - R&D expense tracking ensures budget compliance
+  - Approval workflow must be simple but auditable

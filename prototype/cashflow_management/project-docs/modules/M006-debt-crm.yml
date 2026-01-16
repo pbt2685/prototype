@@ -1,0 +1,194 @@
+# ============================================
+# M006: DEBT MANAGEMENT & CRM
+# ============================================
+
+module_id: M006
+module_name: "Debt Management & CRM"
+version: "1.0"
+status: active
+
+description: |
+  Customer debt tracking with automated escalation based on overdue days.
+  Manages 3-level contact hierarchy (Account Manager → Finance Manager → CFO),
+  logs all collection actions (calls, emails, meetings), and triggers
+  notifications to appropriate contacts.
+
+business_value: |
+  - Proactive debt collection (auto-escalation)
+  - Complete audit trail of collection efforts
+  - Improved cashflow accuracy with debt risk assessment
+  - Structured customer relationship management
+
+features:
+  - F010: Customer Contact Management (3-level escalation hierarchy)
+  - F011: Debt Management & Escalation (overdue tracking, auto-escalation)
+  - F012: Collection Actions (log calls/emails/meetings, status tracking)
+
+doctypes:
+  customized_erpnext:
+    - Customer (add contact hierarchy)
+    - Contact (add level, escalation role)
+    - Communication (link to collection actions)
+    - Payment Entry (link to debt)
+  
+  custom:
+    - Customer Contact Hierarchy
+    - Debt Management
+    - Collection Action
+    - Escalation Rule
+
+key_entities:
+  customer_contact_hierarchy:
+    - Level 1: Account Manager (day-to-day, 0-30 days overdue)
+    - Level 2: Finance Manager (escalation, 31-60 days)
+    - Level 3: CFO/Director (final escalation, 61+ days)
+    - Contact details (email, phone, role)
+  
+  debt_management:
+    - Customer
+    - Contract/Invoice reference
+    - Outstanding amount
+    - Due date
+    - Days overdue (auto-calculated)
+    - Escalation level (0, 1, 2, 3)
+    - Current status: Pending | In Progress | Resolved | Written Off
+    - Assigned to (Sales/Finance)
+    - Last action date
+    - Next follow-up date
+  
+  collection_action:
+    - Debt reference
+    - Action type: Call | Email | Meeting | Legal Notice
+    - Action date
+    - Performed by
+    - Contact person (customer)
+    - Action status: Planned | Completed | Failed
+    - Notes/details
+    - Follow-up date
+    - Result/outcome
+  
+  escalation_rule:
+    - Days overdue threshold (15, 30, 60)
+    - Escalation level (1, 2, 3)
+    - Contact level (Account Mgr, Finance Mgr, CFO)
+    - Required action (Call, Email, Meeting)
+    - Notification template
+
+relationships:
+  - Customer (1) ←─── (N) Contact Hierarchy
+  - Customer (1) ←─── (N) Debt Management
+  - Debt Management (1) ←─── (N) Collection Action
+  - Contract → Payment Schedule → Debt Management (if overdue)
+
+business_rules:
+  - BR-DEBT-001: Auto-create debt record when payment overdue
+  - BR-DEBT-002: Auto-escalate based on days overdue
+  - BR-DEBT-003: Cannot close debt if outstanding amount > 0
+  - BR-DEBT-004: Escalation triggers notification to appropriate contact
+  - BR-ESCALATE-001: 0-15 days = Level 0 (monitoring, no action required)
+  - BR-ESCALATE-002: 16-30 days = Level 1 (Account Manager contact)
+  - BR-ESCALATE-003: 31-60 days = Level 2 (Finance Manager escalation)
+  - BR-ESCALATE-004: 61+ days = Level 3 (CFO/Legal action)
+  - BR-ACTION-001: If no action in 7 days → reminder to assigned person
+  - BR-ACTION-002: Completed action must have notes
+  - BR-ACTION-003: Failed action must reschedule follow-up
+  
+  calculations:
+    - CR-DEBT-OVERDUE-001: |
+        Days Overdue = Current Date - Due Date
+    
+    - CR-DEBT-RISK-001: |
+        Payment Probability by Escalation Level:
+          Level 0-1: 95% collectible
+          Level 2: 80% collectible
+          Level 3: 50% collectible
+        
+        Expected Cash = Outstanding Amount × Probability
+    
+    - CR-CASHFLOW-ADJUSTMENT-001: |
+        Adjusted Payment Date = Original Due + Average Customer Delay
+        If escalation level > 2:
+          Adjusted Date = Original Due + (Days Overdue × 1.5)
+
+workflows:
+  debt_escalation:
+    trigger: "Payment overdue detected"
+    steps:
+      1. Create Debt Management record
+      2. Assign to Account Manager (Level 1 contact)
+      3. Check escalation rules
+      4. If threshold met → escalate
+      5. Send notification to appropriate contact
+      6. Create suggested collection action (Planned)
+      7. Monitor: if no action in 7 days → reminder
+  
+  collection_action:
+    trigger: "Manual or auto-suggested"
+    steps:
+      1. Finance/Sales logs planned action
+      2. Perform action (call/email/meeting)
+      3. Update status to Completed/Failed
+      4. Add notes with outcome
+      5. If payment commitment → update expected date
+      6. If failed → schedule retry
+      7. If resolved → close debt
+
+data_flow:
+  inputs:
+    - Payment due dates (from contracts)
+    - Actual payment receipts
+    - Customer contact details
+    - Collection action logs
+  
+  processes:
+    1. Monitor payment schedules daily
+    2. Detect overdue payments
+    3. Auto-escalate based on rules
+    4. Notify assigned personnel
+    5. Log collection actions
+    6. Update debt status
+    7. Adjust cashflow forecast
+  
+  outputs:
+    - Debt aging report
+    - Escalation status dashboard
+    - Collection action history
+    - Cashflow risk assessment
+    - Customer payment patterns
+
+integration_points:
+  - M003: Payment Schedule → Debt Management (if overdue)
+  - M007: Debt risk → Cashflow forecast adjustment
+  - ERPNext CRM: Customer, Contact, Communication
+  - ERPNext Accounting: Payment Entry → close debt
+
+vietnamese_labels:
+  Debt Management: "Quản Lý Công Nợ"
+  Collection Action: "Hành Động Thu Hồi"
+  Escalation Rule: "Quy Tắc Leo Thang"
+  Customer Contact Hierarchy: "Phân Cấp Liên Hệ Khách Hàng"
+  Days Overdue: "Số Ngày Quá Hạn"
+  Escalation Level: "Mức Độ Leo Thang"
+  Action Type: "Loại Hành Động"
+  Call: "Gọi Điện"
+  Email: "Email"
+  Meeting: "Họp"
+  Legal Notice: "Thông Báo Pháp Lý"
+  Action Status: "Trạng Thái"
+  Planned: "Đã Lên Kế Hoạch"
+  Completed: "Hoàn Thành"
+  Failed: "Thất Bại"
+  Outstanding: "Công Nợ"
+  Written Off: "Xóa Nợ"
+
+dependencies: [M003]
+
+priority: high
+estimated_effort: "5 days"
+
+implementation_notes: |
+  - Automated escalation reduces manual tracking burden
+  - 3-level contact hierarchy ensures appropriate escalation
+  - Complete action log provides audit trail
+  - Payment probability affects cashflow forecasting
+  - Daily monitoring critical for timely escalation

@@ -1,0 +1,227 @@
+# ============================================
+# M007: REPORTING & ANALYTICS
+# ============================================
+
+module_id: M007
+module_name: "Reporting & Analytics"
+version: "1.0"
+status: active
+
+description: |
+  Comprehensive reporting suite providing team-level profitability
+  (including R&D cost tracking), cashflow forecasts with payment delay
+  adjustments, and department/project/employee cost analysis.
+
+business_value: |
+  - Understand which teams are profitable
+  - Track R&D investment separately
+  - Forecast cashflow with realistic payment expectations
+  - Make data-driven decisions on resource allocation
+
+features:
+  - F013: Team Performance Report (income, cost, profit by team)
+  - F014: Cashflow Forecast (project payments, delays, debt risk)
+
+doctypes:
+  custom:
+    - Team Performance Report (custom report)
+    - Cashflow Forecast Report (custom report)
+  
+  customized_erpnext:
+    - Standard reports enhanced with Vietnamese labels
+
+key_reports:
+  team_performance:
+    description: "Team-level P&L showing income, costs, profit/loss"
+    dimensions:
+      - Team
+      - Period (month, quarter, year)
+    metrics:
+      - Income (from projects/contracts)
+      - Labor cost (by employee type)
+      - Allocated expenses
+      - R&D expenses (if internal team)
+      - Total cost
+      - Profit/Loss
+      - Margin % (N/A for R&D teams)
+    filters:
+      - Department
+      - Team
+      - Date range
+      - Project type (Contract-based | R&D)
+    
+    calculations:
+      income: |
+        Contract-based Team:
+          Income = Sum(Contract Values for assigned projects)
+        
+        Internal R&D Team:
+          Income = 0
+          Display: "R&D Investment: -[Total Cost]"
+      
+      labor_cost: |
+        = Sum for each employee in team:
+          Regular: Base + Employer SS + Bonus
+          Intern: Daily Rate × Attendance × Performance Factor + Bonus
+          Freelancer: Project Fee
+      
+      expenses: |
+        Team Expenses = Direct expenses allocated to team
+        Shared Expenses = (Office + Marketing) ÷ Number of teams
+        Total = Team + Shared + R&D
+      
+      profit: |
+        Contract-based: Profit = Income - Total Cost
+        R&D: Loss = -Total Cost (investment)
+      
+      margin: |
+        Contract-based: Margin % = (Profit ÷ Income) × 100
+        R&D: Display "N/A - Investment"
+  
+  cashflow_forecast:
+    description: "Cash in/out forecast with payment delay adjustments"
+    time_horizon: "3, 6, or 12 months"
+    granularity: "Monthly"
+    
+    cash_inflows:
+      - Project payments (by milestone)
+      - License recurring payments
+      - Adjusted for:
+        - Historical customer delay patterns
+        - Current escalation level (debt risk)
+        - Project delay impact
+    
+    cash_outflows:
+      - Salaries (Regular, Intern, Freelancer)
+      - Social security
+      - Bonuses (project-based)
+      - Approved expenses
+      - Planned R&D spending
+    
+    calculations:
+      expected_inflow: |
+        For each payment milestone:
+          Base Expected Date = Milestone Due Date
+          
+          If customer has history:
+            Adjusted Date = Base + Average Customer Delay
+          
+          If debt escalation level > 1:
+            Probability Factor = 0.95 (L0) | 0.80 (L2) | 0.50 (L3)
+            Expected Amount = Milestone Amount × Probability
+          
+          Total Inflow [Month] = Sum(Expected Amounts for that month)
+      
+      expected_outflow: |
+        Salary Cost = Sum(All employee net pay for month)
+        Bonus = Sum(Project bonuses if milestone achieved)
+        Social Security = Sum(Regular employees SS)
+        Expenses = Sum(Approved expenses for month)
+        R&D = Sum(R&D project budgets ÷ project duration)
+        
+        Total Outflow [Month] = Salary + Bonus + SS + Expenses + R&D
+      
+      net_cashflow: |
+        Net Cashflow [Month] = Inflow - Outflow
+        Cumulative Cash = Previous Balance + Net Cashflow
+      
+      risk_assessment: |
+        High Risk: Cumulative Cash < 1 month operating cost
+        Medium Risk: Cumulative Cash < 2 months operating cost
+        Low Risk: Cumulative Cash > 2 months operating cost
+    
+    visualizations:
+      - Waterfall chart (monthly cash movement)
+      - Line chart (cumulative cash balance)
+      - Stacked bar (inflow vs outflow by category)
+      - Heatmap (risk levels by month)
+  
+  additional_reports:
+    - Department Profitability (roll-up of teams)
+    - Project Profitability (revenue vs allocated costs)
+    - Employee Cost Analysis (by type, team, project)
+    - Debt Aging Report (overdue analysis)
+    - Attendance Summary (late patterns, leave usage)
+    - Performance Summary (ratings distribution)
+
+relationships:
+  team_performance:
+    data_sources:
+      - M001: Team structure
+      - M002: Employee costs
+      - M003: Project income
+      - M004: Expenses
+      - M005: Salary costs
+  
+  cashflow_forecast:
+    data_sources:
+      - M003: Payment schedules
+      - M004: Approved expenses
+      - M005: Salary costs
+      - M006: Debt status, escalation levels
+
+business_rules:
+  - BR-REPORT-001: R&D teams show negative profit (investment)
+  - BR-REPORT-002: Team margin % not applicable for R&D
+  - BR-REPORT-003: Cashflow forecast updates daily
+  - BR-REPORT-004: Debt risk reduces expected cash inflow
+  - BR-REPORT-005: BOD approval required for budget variance reports
+  
+data_flow:
+  inputs:
+    - All module data (M001-M006)
+  
+  processes:
+    1. Aggregate data by dimensions (team, period, etc.)
+    2. Apply calculations (profit, margin, cashflow)
+    3. Adjust for risk factors (debt, delays)
+    4. Generate visualizations
+    5. Export to Excel/PDF
+  
+  outputs:
+    - Interactive dashboards
+    - Scheduled email reports (weekly/monthly)
+    - Excel exports
+    - PDF presentations for BOD
+
+access_control:
+  team_performance:
+    - BOD: All teams
+    - Manager: Own team only
+    - Employee: No access
+  
+  cashflow_forecast:
+    - BOD: Full access
+    - Finance: Full access
+    - Manager: View only
+    - Employee: No access
+
+vietnamese_labels:
+  Team Performance: "Hiệu Suất Nhóm"
+  Cashflow Forecast: "Dự Báo Dòng Tiền"
+  Income: "Thu Nhập"
+  Cost: "Chi Phí"
+  Profit: "Lợi Nhuận"
+  Loss: "Lỗ"
+  Margin: "Biên Lợi Nhuận"
+  Cash Inflow: "Tiền Vào"
+  Cash Outflow: "Tiền Ra"
+  Net Cashflow: "Dòng Tiền Ròng"
+  Risk: "Rủi Ro"
+  Investment: "Đầu Tư"
+  Department: "Phòng Ban"
+  Project: "Dự Án"
+  Employee: "Nhân Viên"
+
+dependencies: [M001, M002, M003, M004, M005, M006]
+
+priority: high
+estimated_effort: "6 days"
+
+implementation_notes: |
+  - Team Performance Report is core decision-making tool
+  - R&D teams tracked differently (cost center, not profit center)
+  - Cashflow Forecast must account for payment delays and debt risk
+  - Visualizations critical for BOD understanding
+  - Reports should be exportable for presentations
+  - Access control ensures data privacy by role

@@ -2,8 +2,8 @@ app_name = "prototype"
 app_title = "Prototype"
 app_publisher = "FaceNet"
 app_description = "FaceNet"
-app_email = "trunghieu.personal@gmail.com"
-app_license = "mit"
+app_email = "pbt2685@gmail.com"
+app_license = "MIT"
 
 # Apps
 # ------------------
@@ -36,6 +36,7 @@ fixtures = [
     {"doctype": "Role Profile"},
     {"doctype": "List View Settings"},
     {"doctype": "Letter Head"},
+    {"doctype": "Custom Field"},
 ]
 
 app_include_css = [
@@ -80,7 +81,9 @@ after_migrate = "prototype.setup.cleanup_custom"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+	"Attendance": "cashflow_management/public/js/attendance_custom.js"
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -174,25 +177,18 @@ after_migrate = "prototype.setup.cleanup_custom"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Employee": {
+		"validate": "prototype.cashflow_management.custom_scripts.employee_custom.validate_employee"
+	}
+	# Note: Attendance hooks will be enabled when Attendance DocType is available
+	# "Attendance": {
+	# 	"validate": "prototype.cashflow_management.custom_scripts.attendance_custom.validate_attendance"
+	# }
+}
 
 # Scheduled Tasks
 # ---------------
-
-scheduler_events = {
-    "cron": {
-        # BR-SES-004: Auto-end expired sessions every 1 minute
-        "* * * * *": [
-            "prototype.exam_management.api.auto_end_expired_sessions"
-        ]
-    }
-}
 
 # scheduler_events = {
 # 	"all": [

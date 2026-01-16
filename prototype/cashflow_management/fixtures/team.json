@@ -1,0 +1,52 @@
+[
+  {
+    "doctype": "Team",
+    "team_code": "FF-TEAM",
+    "team_name": "FotoFinder Team",
+    "department": "",
+    "team_lead": "",
+    "is_revenue_generating": 1,
+    "active": 1,
+    "description": "<p>Đội ngũ phát triển dự án FotoFinder - hệ thống quản lý ảnh chụp da liễu</p>"
+  },
+  {
+    "doctype": "Team",
+    "team_code": "DGX-TEAM",
+    "team_name": "DGX Team",
+    "department": "",
+    "team_lead": "",
+    "is_revenue_generating": 1,
+    "active": 1,
+    "description": "<p>Đội ngũ phát triển dự án DGX - hệ thống quản lý dữ liệu y tế</p>"
+  },
+  {
+    "doctype": "Team",
+    "team_code": "VTT-TEAM",
+    "team_name": "VTT Team",
+    "department": "",
+    "team_lead": "",
+    "is_revenue_generating": 1,
+    "active": 1,
+    "description": "<p>Đội ngũ phát triển dự án VTT - hệ thống quản lý vận tải</p>"
+  },
+  {
+    "doctype": "Team",
+    "team_code": "RND-TEAM",
+    "team_name": "Internal R&D Team",
+    "department": "",
+    "team_lead": "",
+    "is_revenue_generating": 0,
+    "active": 1,
+    "description": "<p>Đội ngũ nghiên cứu và phát triển sản phẩm nội bộ</p>"
+  },
+  {
+    "doctype": "Team",
+    "team_code": "SUPPORT-TEAM",
+    "team_name": "Support Team",
+    "department": "",
+    "team_lead": "",
+    "is_revenue_generating": 0,
+    "active": 1,
+    "description": "<p>Đội ngũ hỗ trợ kỹ thuật và chăm sóc khách hàng</p>"
+  }
+]

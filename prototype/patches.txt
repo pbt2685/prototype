@@ -4,3 +4,12 @@
 
 [post_model_sync]
 # Patches added in this section will be executed after doctypes are migrated
+
+# M001: Core Setup - Custom Fields
+prototype.cashflow_management.patches.v1_0.add_department_custom_fields
+prototype.cashflow_management.patches.v1_0.add_employee_custom_fields
+prototype.cashflow_management.patches.v1_0.add_project_assigned_team_field
+
+# M002: Employee Management - Custom Fields
+prototype.cashflow_management.patches.v1_0.add_attendance_custom_fields
+prototype.cashflow_management.patches.v1_0.add_employee_performance_fields

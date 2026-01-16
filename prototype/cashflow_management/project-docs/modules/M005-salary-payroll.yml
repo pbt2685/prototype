@@ -1,0 +1,162 @@
+# ============================================
+# M005: SALARY & PAYROLL
+# ============================================
+
+module_id: M005
+module_name: "Salary & Payroll"
+version: "1.0"
+status: active
+
+description: |
+  Monthly salary calculation for Regular/Intern/Freelancer employees,
+  consolidated salary table generation, and Excel export for bank
+  bulk payment with Vietnamese payment notes explaining deductions/bonuses.
+
+business_value: |
+  - Accurate salary calculation by employee type
+  - Intern payment based on attendance × performance
+  - One-click bank export (Excel format)
+  - Clear payment notes for employees
+  - Tax-compliant processing
+
+features:
+  - F008: Salary Processing (by employee type)
+  - F009: Salary Table & Bank Export (Excel format)
+
+doctypes:
+  customized_erpnext:
+    - Salary Structure (separate for Regular/Intern/Freelancer)
+    - Salary Slip (add: payment_method, payment_note, is_cash_payment)
+  
+  custom:
+    - Salary Table
+    - Salary Table Item
+
+key_entities:
+  salary_structure:
+    - Regular: Base + Allowances - (Tax + Social Security) + Bonus
+    - Intern: (Daily Rate × Attendance × Performance Factor) + Bonus
+    - Freelancer: Project Fee - Tax Withholding
+  
+  salary_slip:
+    - Employee
+    - Month/Period
+    - Base/Rate
+    - Allowances
+    - Deductions (itemized)
+    - Bonus (itemized)
+    - Net Pay
+    - Payment Note (Vietnamese explanation)
+  
+  salary_table:
+    - Month/Period
+    - Employee Lines (all employees)
+    - Total Amount
+    - Export Status: Draft | Approved | Exported
+    - Bank File (Excel)
+
+relationships:
+  - Salary Table (1) ←─── (N) Salary Table Item
+  - Salary Table Item (N) ←─── (1) Employee
+  - Salary Slip references Attendance (for interns)
+  - Salary Slip references Performance Rating (for interns)
+
+business_rules:
+  - BR-SAL-001: Salary slip cannot be created without attendance (interns)
+  - BR-SAL-002: Intern salary requires performance rating
+  - BR-SAL-003: Salary table must be approved before export
+  - BR-SAL-004: Payment note must be ≤ 200 characters
+  - BR-SAL-005: Regular employees require social security calculation
+  - BR-SAL-006: Freelancers require tax withholding (if applicable)
+  - BR-SAL-007: Intern payments are non-deductible (flag for tax)
+  
+  calculations:
+    - CR-SAL-REGULAR-001: |
+        Gross = Base Salary + Allowances
+        Employee Social Security = Gross × 10.5%
+        Employer Social Security = Gross × 17.5%
+        Tax = (Gross - 11,000,000 - Employee SS) × Tax Rate
+        Net = Gross - Employee SS - Tax + Bonus
+    
+    - CR-SAL-INTERN-001: |
+        Base = Daily Rate × Days Attended
+        Performance Factor: 1=0.6, 2=0.8, 3=1.0, 4=1.2, 5=1.5
+        Adjusted = Base × Performance Factor
+        Net = Adjusted + Project Bonus
+        Payment Method: Cash
+    
+    - CR-SAL-FREELANCER-001: |
+        Gross = Project Fee or Hourly Rate × Hours
+        Tax Withholding = Gross × 10% (if required)
+        Net = Gross - Tax Withholding
+    
+    - CR-PAYMENT-NOTE-001: |
+        Format: "Lương tháng [MM/YYYY]: Lương cơ bản [amount], Phụ cấp [amount], Khấu trừ [amount], Thưởng [amount]"
+        Example: "Lương tháng 01/2026: LCB 15,000,000, PC 2,000,000, KT -3,500,000, Thưởng 5,000,000"
+
+bank_export_format:
+  file_type: "Excel (.xlsx)"
+  columns:
+    - Employee Code
+    - Employee Name
+    - Bank Account
+    - Amount
+    - Payment Note
+  
+  validation:
+    - All bank accounts must be valid
+    - Total amount must match salary table
+    - No duplicate employee records
+
+data_flow:
+  inputs:
+    - Employee master (type, rate, bank account)
+    - Attendance records (interns)
+    - Performance ratings (interns)
+    - Project bonuses
+  
+  processes:
+    1. Calculate salary slips by type
+    2. Generate payment notes
+    3. Consolidate into salary table
+    4. BOD approval
+    5. Export to Excel for bank
+  
+  outputs:
+    - Salary slips (individual)
+    - Salary table (consolidated)
+    - Bank file (Excel)
+    - Tax reports (deductible vs non-deductible)
+
+integration_points:
+  - M002: Attendance → Intern salary
+  - M002: Performance → Intern salary adjustment
+  - M003: Project bonus → Employee bonus
+  - M007: Salary costs → Team performance, Cashflow
+
+vietnamese_labels:
+  Salary: "Lương"
+  Salary Structure: "Cấu Trúc Lương"
+  Salary Slip: "Phiếu Lương"
+  Salary Table: "Bảng Lương"
+  Base Salary: "Lương Cơ Bản"
+  Allowance: "Phụ Cấp"
+  Deduction: "Khấu Trừ"
+  Bonus: "Thưởng"
+  Net Pay: "Thực Lĩnh"
+  Payment Note: "Ghi Chú Thanh Toán"
+  Export Status: "Trạng Thái Xuất"
+  Bank File: "File Ngân Hàng"
+
+dependencies: [M001, M002]
+
+priority: critical
+estimated_effort: "5 days"
+
+implementation_notes: |
+  - Three completely different salary calculation methods
+  - Intern cash payments flagged for future reconciliation needs
+  - Bank export must match exact format required by banks
+  - Payment notes critical for employee understanding
+  - Social security rates: Employee 10.5%, Employer 17.5%
+  - Tax withholding for freelancers: 10%

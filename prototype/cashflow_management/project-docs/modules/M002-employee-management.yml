@@ -1,0 +1,132 @@
+# ============================================
+# M002: EMPLOYEE MANAGEMENT
+# ============================================
+
+module_id: M002
+module_name: "Employee Management"
+version: "1.0"
+status: active
+
+description: |
+  Comprehensive employee lifecycle management supporting three
+  employment types: Regular (full-time contract), Intern (no contract,
+  cash payment), and Freelancer (project-based, tax deductible).
+  Includes attendance tracking, leave management, and performance rating.
+
+business_value: |
+  - Accurate labor cost calculation by employee type
+  - Intern cost based on attendance + performance
+  - Support tax-compliant vs non-deductible payments
+  - Performance-based compensation for interns
+
+features:
+  - F002: Employee Management (types, contracts, payment methods)
+  - F005: Attendance & Leave (intern payment basis)
+  - F006: Performance Rating (manager + BOD override)
+
+doctypes:
+  customized_erpnext:
+    - Employee (add fields: employee_type, daily_rate, payment_method)
+    - Attendance (add fields: late_minutes, is_half_day)
+    - Leave Application (simplified)
+  
+  custom:
+    - Performance Rating
+
+key_entities:
+  employee_types:
+    - Regular: Full-time contract, bank payment, tax deductible
+    - Intern: No contract, cash payment, non-deductible
+    - Freelancer: Project-based, bank payment, tax deductible
+  
+  attendance:
+    - Daily check-in/out
+    - Late tracking (threshold: 15 minutes)
+    - Half-day support for interns
+  
+  leave:
+    - Annual, Sick, Personal
+    - Balance tracking
+    - Manager approval
+  
+  performance:
+    - Rating scale: 1-5
+    - Manager submission
+    - BOD override capability
+    - Impacts intern salary calculation
+
+relationships:
+  - Employee (N) ←─── (1) Team
+  - Employee (1) ←─── (N) Attendance
+  - Employee (1) ←─── (N) Leave Request
+  - Employee (1) ←─── (N) Performance Rating
+
+business_rules:
+  - BR-EMP-001: Employee type cannot change once set
+  - BR-EMP-002: Regular employees must have contract
+  - BR-EMP-003: Interns must have daily_rate
+  - BR-ATT-001: Late if check-in > 15 minutes after start
+  - BR-ATT-002: Late > 3 times/month → alert manager
+  - BR-ATT-003: Intern attendance < 15 days/month → alert manager
+  - BR-LEAVE-001: Leave request cannot exceed balance
+  - BR-LEAVE-002: Leave > 10 days/month → alert manager
+  - BR-PERF-001: Performance rating required for intern salary
+  - BR-PERF-002: BOD can override any performance rating
+  
+  calculations:
+    - CR-EMP-COST-001: |
+        Regular Employee Cost = Base Salary + Social Security (employer) + Bonus
+    - CR-EMP-COST-002: |
+        Intern Cost = (Daily Rate × Days Attended × Performance Factor) + Bonus
+        Performance Factor: 1=0.6x, 2=0.8x, 3=1.0x, 4=1.2x, 5=1.5x
+    - CR-EMP-COST-003: |
+        Freelancer Cost = Project Fee or (Hourly Rate × Hours)
+
+data_flow:
+  inputs:
+    - Employee master data
+    - Daily attendance records
+    - Leave requests
+    - Performance ratings (monthly/quarterly)
+  
+  outputs:
+    - Employee cost by type
+    - Attendance patterns
+    - Performance scores
+    - Alerts (late, excessive leave, low attendance)
+
+integration_points:
+  - M001: Employee assigned to Team
+  - M003: Employee assigned to Project
+  - M005: Attendance + Performance → Salary calculation
+  - M007: Employee cost → Team performance report
+
+vietnamese_labels:
+  Employee: "Nhân Viên"
+  employee_type: "Loại Nhân Viên"
+  Regular: "Chính Thức"
+  Intern: "Thực Tập Sinh"
+  Freelancer: "Cộng Tác Viên"
+  Attendance: "Chấm Công"
+  Leave: "Nghỉ Phép"
+  Performance Rating: "Đánh Giá Hiệu Suất"
+  daily_rate: "Đơn Giá Ngày"
+  payment_method: "Phương Thức Thanh Toán"
+  Bank: "Chuyển Khoản"
+  Cash: "Tiền Mặt"
+  Present: "Có Mặt"
+  Absent: "Vắng Mặt"
+  On Leave: "Nghỉ Phép"
+  late_minutes: "Số Phút Trễ"
+  rating_score: "Điểm Đánh Giá"
+
+dependencies: [M001]
+
+priority: critical
+estimated_effort: "5 days"
+
+implementation_notes: |
+  - Employee type drives entire salary calculation logic
+  - Intern payments in cash create unique tracking needs
+  - Performance rating system is critical for intern compensation
+  - Attendance tracking more important for interns than regular employees
