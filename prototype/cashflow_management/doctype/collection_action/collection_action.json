@@ -1,0 +1,158 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:ACT-{debt}-{YYYY}-{####}",
+ "creation": "2025-01-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "debt",
+  "customer",
+  "action_type",
+  "column_break_2",
+  "action_date",
+  "action_status",
+  "section_break_5",
+  "performed_by",
+  "contact_person",
+  "column_break_7",
+  "followup_date",
+  "section_break_9",
+  "action_notes",
+  "outcome"
+ ],
+ "fields": [
+  {
+   "fieldname": "debt",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "C\u00f4ng N\u1ee3",
+   "options": "Debt Management",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "debt.customer",
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Kh\u00e1ch H\u00e0ng",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "action_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Lo\u1ea1i H\u00e0nh \u0110\u1ed9ng",
+   "options": "Call\nEmail\nMeeting\nLegal Notice",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "action_date",
+   "fieldtype": "Date",
+   "label": "Ng\u00e0y H\u00e0nh \u0110\u1ed9ng",
+   "reqd": 1
+  },
+  {
+   "default": "Planned",
+   "fieldname": "action_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Tr\u1ea1ng Th\u00e1i",
+   "options": "Planned\nCompleted\nFailed",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break",
+   "label": "Chi Ti\u1ebft"
+  },
+  {
+   "default": "user",
+   "fieldname": "performed_by",
+   "fieldtype": "Link",
+   "label": "Ng\u01b0\u1eddi Th\u1ef1c Hi\u1ec7n",
+   "options": "User"
+  },
+  {
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Ng\u01b0\u1eddi Li\u00ean H\u1ec7 (KH)"
+  },
+  {
+   "fieldname": "column_break_7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "followup_date",
+   "fieldtype": "Date",
+   "label": "Ng\u00e0y Theo D\u00f5i Ti\u1ebfp"
+  },
+  {
+   "fieldname": "section_break_9",
+   "fieldtype": "Section Break",
+   "label": "Ghi Ch\u00fa & K\u1ebft Qu\u1ea3"
+  },
+  {
+   "fieldname": "action_notes",
+   "fieldtype": "Text",
+   "label": "Ghi Ch\u00fa"
+  },
+  {
+   "fieldname": "outcome",
+   "fieldtype": "Text",
+   "label": "K\u1ebft Qu\u1ea3"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Cashflow Management",
+ "name": "Collection Action",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Sales User",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

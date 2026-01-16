@@ -10,6 +10,10 @@ prototype.cashflow_management.patches.v1_0.add_department_custom_fields
 prototype.cashflow_management.patches.v1_0.add_employee_custom_fields
 prototype.cashflow_management.patches.v1_0.add_project_assigned_team_field
 
-# M002: Employee Management - Custom Fields
+# M002: Employee Management - Performance Rating
 prototype.cashflow_management.patches.v1_0.add_attendance_custom_fields
 prototype.cashflow_management.patches.v1_0.add_employee_performance_fields
+
+# M003: Contract & Project Management
+prototype.cashflow_management.patches.v1_0.add_contract_custom_fields
+prototype.cashflow_management.patches.v1_0.add_project_custom_fields

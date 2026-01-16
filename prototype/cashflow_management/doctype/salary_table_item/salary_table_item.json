@@ -1,0 +1,134 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "employee_name",
+  "employee_type",
+  "column_break_2",
+  "team",
+  "bank_account",
+  "section_break_5",
+  "base_amount",
+  "attendance_days",
+  "performance_factor",
+  "column_break_8",
+  "allowances",
+  "deductions",
+  "bonus",
+  "net_pay",
+  "payment_note"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Nh\u00e2n Vi\u00ean",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "T\u00ean",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.custom_employee_type",
+   "fieldname": "employee_type",
+   "fieldtype": "Select",
+   "label": "Lo\u1ea1i",
+   "options": "Regular\nIntern\nFreelancer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "employee.custom_primary_team",
+   "fieldname": "team",
+   "fieldtype": "Link",
+   "label": "Nh\u00f3m",
+   "options": "Team",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.bank_ac_no",
+   "fieldname": "bank_account",
+   "fieldtype": "Data",
+   "label": "T\u00e0i Kho\u1ea3n NH",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break",
+   "label": "Chi Ti\u1ebft T\u00ednh L\u01b0\u01a1ng"
+  },
+  {
+   "fieldname": "base_amount",
+   "fieldtype": "Currency",
+   "label": "L\u01b0\u01a1ng C\u01a1 B\u1ea3n / Gi\u00e1 Ng\u00e0y"
+  },
+  {
+   "fieldname": "attendance_days",
+   "fieldtype": "Float",
+   "label": "S\u1ed1 Ng\u00e0y C\u00f4ng"
+  },
+  {
+   "fieldname": "performance_factor",
+   "fieldtype": "Float",
+   "label": "H\u1ec7 S\u1ed1 Hi\u1ec7u Su\u1ea5t"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "allowances",
+   "fieldtype": "Currency",
+   "label": "Ph\u1ee5 C\u1ea5p"
+  },
+  {
+   "fieldname": "deductions",
+   "fieldtype": "Currency",
+   "label": "Kh\u1ea5u Tr\u1eeb"
+  },
+  {
+   "fieldname": "bonus",
+   "fieldtype": "Currency",
+   "label": "Th\u01b0\u1edfng"
+  },
+  {
+   "fieldname": "net_pay",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Th\u1ef1c L\u0129nh",
+   "reqd": 1
+  },
+  {
+   "fieldname": "payment_note",
+   "fieldtype": "Small Text",
+   "label": "Ghi Ch\u00fa Thanh To\u00e1n"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-01-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Cashflow Management",
+ "name": "Salary Table Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,193 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:PAY-{contract}-{milestone_number}",
+ "creation": "2026-01-16 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "contract",
+  "contract_name",
+  "customer",
+  "column_break_1",
+  "milestone_number",
+  "milestone_name",
+  "status",
+  "section_break_amount",
+  "amount",
+  "percentage",
+  "column_break_amount",
+  "expected_date",
+  "actual_date",
+  "delay_days",
+  "section_break_notes",
+  "description",
+  "payment_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "contract",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "H\u1ee3p \u0110\u1ed3ng",
+   "options": "Contract",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "contract.party_name",
+   "fieldname": "contract_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "T\u00ean H\u1ee3p \u0110\u1ed3ng",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "contract.party_name",
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Kh\u00e1ch H\u00e0ng",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "milestone_number",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "S\u1ed1 M\u1ed1c",
+   "reqd": 1
+  },
+  {
+   "fieldname": "milestone_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "T\u00ean M\u1ed1c",
+   "length": 200,
+   "reqd": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Tr\u1ea1ng Th\u00e1i",
+   "options": "Pending\\nReceived\\nOverdue",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_amount",
+   "fieldtype": "Section Break",
+   "label": "S\u1ed1 Ti\u1ec1n"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "S\u1ed1 Ti\u1ec1n",
+   "precision": "2",
+   "reqd": 1
+  },
+  {
+   "fieldname": "percentage",
+   "fieldtype": "Percent",
+   "label": "T\u1ec9 L\u1ec7 %",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_amount",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expected_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Ng\u00e0y D\u1ef1 Ki\u1ebfn",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.status == 'Received'",
+   "fieldname": "actual_date",
+   "fieldtype": "Date",
+   "label": "Ng\u00e0y Th\u1ef1c T\u1ebf"
+  },
+  {
+   "default": "0",
+   "fieldname": "delay_days",
+   "fieldtype": "Int",
+   "label": "S\u1ed1 Ng\u00e0y Tr\u1ec5",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Ghi Ch\u00fa"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "M\u00f4 T\u1ea3"
+  },
+  {
+   "fieldname": "payment_notes",
+   "fieldtype": "Text Editor",
+   "label": "Ghi Ch\u00fa Thanh To\u00e1n"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-16 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Cashflow Management",
+ "name": "Payment Schedule",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "expected_date",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "milestone_name",
+ "track_changes": 1
+}

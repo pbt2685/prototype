@@ -1,0 +1,1 @@
+# Salary Table DocType initialization

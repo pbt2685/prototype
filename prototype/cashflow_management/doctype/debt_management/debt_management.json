@@ -1,0 +1,188 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:DEBT-{customer}-{YYYY}-{#####}",
+ "creation": "2025-01-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "customer",
+  "customer_name",
+  "contract",
+  "payment_schedule",
+  "column_break_3",
+  "outstanding_amount",
+  "due_date",
+  "days_overdue",
+  "escalation_level",
+  "section_break_8",
+  "current_status",
+  "assigned_to",
+  "column_break_10",
+  "last_action_date",
+  "next_followup_date",
+  "section_break_13",
+  "payment_probability",
+  "expected_payment_date",
+  "risk_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Kh\u00e1ch H\u00e0ng",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "T\u00ean Kh\u00e1ch H\u00e0ng",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contract",
+   "fieldtype": "Link",
+   "label": "H\u1ee3p \u0110\u1ed3ng",
+   "options": "Contract"
+  },
+  {
+   "fieldname": "payment_schedule",
+   "fieldtype": "Link",
+   "label": "L\u1ecbch Thanh To\u00e1n",
+   "options": "Payment Schedule"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "outstanding_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "C\u00f4ng N\u1ee3",
+   "reqd": 1
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Ng\u00e0y \u0110\u1ebfn H\u1ea1n",
+   "reqd": 1
+  },
+  {
+   "fieldname": "days_overdue",
+   "fieldtype": "Int",
+   "label": "S\u1ed1 Ng\u00e0y Qu\u00e1 H\u1ea1n",
+   "read_only": 1
+  },
+  {
+   "fieldname": "escalation_level",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "M\u1ee9c \u0110\u1ed9 Leo Thang",
+   "options": "0 - Monitoring\n1 - Account Manager\n2 - Finance Manager\n3 - CFO/Legal",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break",
+   "label": "Tr\u1ea1ng Th\u00e1i & Ph\u00e2n C\u00f4ng"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "current_status",
+   "fieldtype": "Select",
+   "label": "Tr\u1ea1ng Th\u00e1i",
+   "options": "Pending\nIn Progress\nResolved\nWritten Off",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Link",
+   "label": "Ph\u00e2n C\u00f4ng Cho",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_10",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_action_date",
+   "fieldtype": "Date",
+   "label": "Ng\u00e0y H\u00e0nh \u0110\u1ed9ng Cu\u1ed1i"
+  },
+  {
+   "fieldname": "next_followup_date",
+   "fieldtype": "Date",
+   "label": "Ng\u00e0y Theo D\u00f5i Ti\u1ebfp"
+  },
+  {
+   "fieldname": "section_break_13",
+   "fieldtype": "Section Break",
+   "label": "\u0110\u00e1nh Gi\u00e1 R\u1ee7i Ro"
+  },
+  {
+   "fieldname": "payment_probability",
+   "fieldtype": "Percent",
+   "label": "X\u00e1c Su\u1ea5t Thu H\u1ed3i",
+   "read_only": 1
+  },
+  {
+   "fieldname": "expected_payment_date",
+   "fieldtype": "Date",
+   "label": "Ng\u00e0y D\u1ef1 Ki\u1ebfn Thu"
+  },
+  {
+   "fieldname": "risk_notes",
+   "fieldtype": "Text",
+   "label": "Ghi Ch\u00fa R\u1ee7i Ro"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Cashflow Management",
+ "name": "Debt Management",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

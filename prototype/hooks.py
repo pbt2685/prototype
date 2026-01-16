@@ -180,6 +180,12 @@ doctype_js = {
 doc_events = {
 	"Employee": {
 		"validate": "prototype.cashflow_management.custom_scripts.employee_custom.validate_employee"
+	},
+	"Contract": {
+		"validate": "prototype.cashflow_management.custom_scripts.contract_custom.validate_contract"
+	},
+	"Project": {
+		"validate": "prototype.cashflow_management.custom_scripts.project_custom.validate_project"
 	}
 	# Note: Attendance hooks will be enabled when Attendance DocType is available
 	# "Attendance": {
@@ -190,23 +196,11 @@ doc_events = {
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"prototype.tasks.all"
-# 	],
-# 	"daily": [
-# 		"prototype.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"prototype.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"prototype.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"prototype.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"daily": [
+		"prototype.cashflow_management.doctype.debt_management.debt_management.check_overdue_payments"
+	]
+}
 
 # Testing
 # -------

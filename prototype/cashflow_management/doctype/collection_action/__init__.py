@@ -1,0 +1,1 @@
+# Collection Action DocType initialization

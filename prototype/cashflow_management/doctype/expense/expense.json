@@ -1,0 +1,217 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:EXP-{YYYY}-{#####}",
+ "creation": "2026-01-16 11:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "expense_type",
+  "category",
+  "expense_date",
+  "column_break_1",
+  "amount",
+  "approval_status",
+  "section_break_allocation",
+  "team",
+  "project",
+  "column_break_allocation",
+  "initiated_by",
+  "initiated_date",
+  "section_break_approval",
+  "approved_by",
+  "approval_date",
+  "section_break_grouped",
+  "grouped_items",
+  "section_break_notes",
+  "description",
+  "column_break_notes",
+  "approval_notes"
+ ],
+ "fields": [
+  {
+   "default": "Individual",
+   "fieldname": "expense_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Lo\u1ea1i",
+   "options": "Individual\nGrouped",
+   "reqd": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Danh M\u1ee5c",
+   "options": "Office\nTravel\nEquipment\nMarketing\nR&D",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.expense_type=='Individual'",
+   "fieldname": "expense_date",
+   "fieldtype": "Date",
+   "label": "Ng\u00e0y Chi",
+   "mandatory_depends_on": "eval:doc.expense_type=='Individual'"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "S\u1ed1 Ti\u1ec1n",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "approval_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Tr\u1ea1ng Th\u00e1i Duy\u1ec7t",
+   "options": "Draft\nPending BOD\nApproved\nRejected",
+   "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_allocation",
+   "fieldtype": "Section Break",
+   "label": "Ph\u00e2n B\u1ed5"
+  },
+  {
+   "fieldname": "team",
+   "fieldtype": "Link",
+   "label": "Nh\u00f3m",
+   "options": "Team"
+  },
+  {
+   "depends_on": "eval:doc.category=='R&D'",
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "D\u1ef1 \u00c1n",
+   "mandatory_depends_on": "eval:doc.category=='R&D'",
+   "options": "Project"
+  },
+  {
+   "fieldname": "column_break_allocation",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "initiated_by",
+   "fieldtype": "Link",
+   "label": "Kh\u1edfi T\u1ea1o B\u1edfi",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "initiated_date",
+   "fieldtype": "Date",
+   "label": "Ng\u00e0y Kh\u1edfi T\u1ea1o",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_approval",
+   "fieldtype": "Section Break",
+   "label": "Duy\u1ec7t"
+  },
+  {
+   "depends_on": "eval:doc.approval_status=='Approved'",
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Duy\u1ec7t B\u1edfi (BOD)",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.approval_status=='Approved'",
+   "fieldname": "approval_date",
+   "fieldtype": "Date",
+   "label": "Ng\u00e0y Duy\u1ec7t",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.expense_type=='Grouped'",
+   "fieldname": "section_break_grouped",
+   "fieldtype": "Section Break",
+   "label": "Chi Ti\u1ebft G\u1ed9p Nh\u00f3m"
+  },
+  {
+   "depends_on": "eval:doc.expense_type=='Grouped'",
+   "fieldname": "grouped_items",
+   "fieldtype": "Table",
+   "label": "C\u00e1c Kho\u1ea3n Chi",
+   "options": "Grouped Expense Item"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Ghi Ch\u00fa"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "M\u00f4 T\u1ea3"
+  },
+  {
+   "fieldname": "column_break_notes",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "approval_notes",
+   "fieldtype": "Text Editor",
+   "label": "Ghi Ch\u00fa Duy\u1ec7t"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-01-16 11:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Cashflow Management",
+ "name": "Expense",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

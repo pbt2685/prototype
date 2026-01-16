@@ -1,0 +1,317 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"core-setup\",\"type\":\"card\",\"data\":{\"card_name\":\"M001: Core Setup\",\"col\":4},\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team\",\"col\":3},\"parent\":\"core-setup\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Department\",\"col\":3},\"parent\":\"core-setup\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee\",\"col\":3},\"parent\":\"core-setup\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project\",\"col\":3},\"parent\":\"core-setup\",\"hidden\":0},{\"id\":\"employee-management\",\"type\":\"card\",\"data\":{\"card_name\":\"M002: Employee Management\",\"col\":4},\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Performance Rating\",\"col\":3},\"parent\":\"employee-management\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Attendance\",\"col\":3},\"parent\":\"employee-management\",\"hidden\":0},{\"id\":\"contract-project\",\"type\":\"card\",\"data\":{\"card_name\":\"M003: Contract & Project\",\"col\":4},\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Contract\",\"col\":3},\"parent\":\"contract-project\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payment Schedule\",\"col\":3},\"parent\":\"contract-project\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3},\"parent\":\"contract-project\",\"hidden\":0},{\"id\":\"expense-management\",\"type\":\"card\",\"data\":{\"card_name\":\"M004: Expense Management\",\"col\":4},\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Expense\",\"col\":3},\"parent\":\"expense-management\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Expense Pending BOD\",\"col\":3,\"type\":\"Link\",\"link_to\":\"Expense\",\"doc_view\":\"List\",\"filters\":\"[[\\\"approval_status\\\",\\\"=\\\",\\\"Pending BOD\\\"]]\"},\"parent\":\"expense-management\",\"hidden\":0},{\"id\":\"salary-payroll\",\"type\":\"card\",\"data\":{\"card_name\":\"M005: Salary & Payroll\",\"col\":4},\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Salary Table\",\"col\":3},\"parent\":\"salary-payroll\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Create Salary Table\",\"col\":3,\"type\":\"DocType\",\"link_to\":\"Salary Table\",\"doc_view\":\"New\"},\"parent\":\"salary-payroll\",\"hidden\":0},{\"id\":\"debt-crm\",\"type\":\"card\",\"data\":{\"card_name\":\"M006: Debt & CRM\",\"col\":4},\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Debt Management\",\"col\":3},\"parent\":\"debt-crm\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Collection Action\",\"col\":3},\"parent\":\"debt-crm\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Overdue Debts\",\"col\":3,\"type\":\"Link\",\"link_to\":\"Debt Management\",\"doc_view\":\"List\",\"filters\":\"[[\\\"escalation_level\\\",\\\"!=\\\",\\\"0 - Monitoring\\\"]]\"},\"parent\":\"debt-crm\",\"hidden\":0},{\"id\":\"reports\",\"type\":\"card\",\"data\":{\"card_name\":\"M007: Reports & Analytics\",\"col\":4},\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Team Performance Report\",\"col\":3,\"type\":\"Report\",\"link_to\":\"Team Performance Report\"},\"parent\":\"reports\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cashflow Forecast Report\",\"col\":3,\"type\":\"Report\",\"link_to\":\"Cashflow Forecast Report\"},\"parent\":\"reports\",\"hidden\":0},{\"id\":\"quick-actions\",\"type\":\"card\",\"data\":{\"card_name\":\"Quick Actions\",\"col\":4},\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Team\",\"col\":3,\"type\":\"DocType\",\"link_to\":\"Team\",\"doc_view\":\"New\"},\"parent\":\"quick-actions\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Performance Rating\",\"col\":3,\"type\":\"DocType\",\"link_to\":\"Performance Rating\",\"doc_view\":\"New\"},\"parent\":\"quick-actions\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Expense\",\"col\":3,\"type\":\"DocType\",\"link_to\":\"Expense\",\"doc_view\":\"New\"},\"parent\":\"quick-actions\",\"hidden\":0},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Payment Schedule\",\"col\":3,\"type\":\"DocType\",\"link_to\":\"Payment Schedule\",\"doc_view\":\"New\"},\"parent\":\"quick-actions\",\"hidden\":0}]",
+ "creation": "2026-01-16 00:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "cash",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Cashflow Management",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Team",
+   "link_count": 0,
+   "link_to": "Team",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Department",
+   "link_count": 0,
+   "link_to": "Department",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Employee",
+   "link_count": 0,
+   "link_to": "Employee",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Project",
+   "link_count": 0,
+   "link_to": "Project",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Performance Rating",
+   "link_count": 0,
+   "link_to": "Performance Rating",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Attendance",
+   "link_count": 0,
+   "link_to": "Attendance",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Contract",
+   "link_count": 0,
+   "link_to": "Contract",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Payment Schedule",
+   "link_count": 0,
+   "link_to": "Payment Schedule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Customer",
+   "link_count": 0,
+   "link_to": "Customer",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Expense",
+   "link_count": 0,
+   "link_to": "Expense",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Expense Pending BOD",
+   "link_count": 0,
+   "link_to": "Expense",
+   "link_type": "DocType",
+   "onboard": 0,
+   "only_for": "",
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Salary Table",
+   "link_count": 0,
+   "link_to": "Salary Table",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Create Salary Table",
+   "link_count": 0,
+   "link_to": "Salary Table",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Debt Management",
+   "link_count": 0,
+   "link_to": "Debt Management",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Collection Action",
+   "link_count": 0,
+   "link_to": "Collection Action",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Overdue Debts",
+   "link_count": 0,
+   "link_to": "Debt Management",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Team Performance Report",
+   "link_count": 0,
+   "link_to": "Team Performance Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Cashflow Forecast Report",
+   "link_count": 0,
+   "link_to": "Cashflow Forecast Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "New Team",
+   "link_count": 0,
+   "link_to": "Team",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "New Performance Rating",
+   "link_count": 0,
+   "link_to": "Performance Rating",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "New Expense",
+   "link_count": 0,
+   "link_to": "Expense",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "New Payment Schedule",
+   "link_count": 0,
+   "link_to": "Payment Schedule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-01-16 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Cashflow Management",
+ "name": "Cashflow Management",
+ "number_cards": [],
+ "onboarding": "",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 1,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "format": "{} Active",
+   "label": "Team",
+   "link_to": "Team",
+   "stats_filter": "{\"active\": 1}",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "format": "{} Active",
+   "label": "Employee",
+   "link_to": "Employee",
+   "stats_filter": "{\"status\": \"Active\"}",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "format": "{} This Month",
+   "label": "Performance Rating",
+   "link_to": "Performance Rating",
+   "type": "DocType"
+  },
+  {
+   "color": "Yellow",
+   "format": "{} Active",
+   "label": "Payment Schedule",
+   "link_to": "Payment Schedule",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "format": "{} Pending",
+   "label": "Expense",
+   "link_to": "Expense",
+   "stats_filter": "{\"approval_status\": \"Pending BOD\"}",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "format": "{} This Month",
+   "label": "Salary Table",
+   "link_to": "Salary Table",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "format": "{} Active",
+   "label": "Debt Management",
+   "link_to": "Debt Management",
+   "stats_filter": "{\"current_status\": [\"!=\", \"Resolved\"]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "label": "Team Performance Report",
+   "link_to": "Team Performance Report",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "label": "Cashflow Forecast Report",
+   "link_to": "Cashflow Forecast Report",
+   "type": "Report"
+  }
+ ],
+ "title": "Cashflow Management"
+}

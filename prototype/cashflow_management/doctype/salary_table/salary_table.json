@@ -1,0 +1,134 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:SAL-TABLE-{YYYY}-{MM}",
+ "creation": "2025-01-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "period_month",
+  "period_year",
+  "column_break_2",
+  "export_status",
+  "total_amount",
+  "section_break_5",
+  "salary_items",
+  "section_break_7",
+  "approved_by",
+  "approval_date",
+  "bank_file",
+  "export_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "period_month",
+   "fieldtype": "Select",
+   "label": "Th\u00e1ng",
+   "options": "01\n02\n03\n04\n05\n06\n07\n08\n09\n10\n11\n12",
+   "reqd": 1
+  },
+  {
+   "fieldname": "period_year",
+   "fieldtype": "Data",
+   "label": "N\u0103m",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "export_status",
+   "fieldtype": "Select",
+   "label": "Tr\u1ea1ng Th\u00e1i Xu\u1ea5t",
+   "options": "Draft\nApproved\nExported",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "T\u1ed5ng S\u1ed1 Ti\u1ec1n",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break",
+   "label": "Chi Ti\u1ebft L\u01b0\u01a1ng"
+  },
+  {
+   "fieldname": "salary_items",
+   "fieldtype": "Table",
+   "label": "Danh S\u00e1ch Nh\u00e2n Vi\u00ean",
+   "options": "Salary Table Item"
+  },
+  {
+   "fieldname": "section_break_7",
+   "fieldtype": "Section Break",
+   "label": "Duy\u1ec7t & Xu\u1ea5t File"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Ng\u01b0\u1eddi Duy\u1ec7t",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approval_date",
+   "fieldtype": "Datetime",
+   "label": "Ng\u00e0y Duy\u1ec7t",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bank_file",
+   "fieldtype": "Attach",
+   "label": "File Ng\u00e2n H\u00e0ng"
+  },
+  {
+   "fieldname": "export_date",
+   "fieldtype": "Datetime",
+   "label": "Ng\u00e0y Xu\u1ea5t",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Cashflow Management",
+ "name": "Salary Table",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
