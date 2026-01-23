@@ -9,7 +9,7 @@ frappe.ui.form.on("Performance Rating", {
             
             // BOD Override button
             if (frappe.user_roles.includes("System Manager") && !frm.doc.is_overridden_by_bod) {
-                frm.add_custom_button(__("Ghi Đè BOD"), () => {
+                frm.add_custom_button(__("BOD Ghi Đè"), () => {
                     frappe.prompt([
                         {
                             fieldname: "new_rating_score",
@@ -20,7 +20,7 @@ frappe.ui.form.on("Performance Rating", {
                         },
                         {
                             fieldname: "bod_comments",
-                            label: __("Nhận Xét BOD"),
+                            label: __("Nhận Xét"),
                             fieldtype: "Text Editor",
                             reqd: 1
                         }
@@ -72,13 +72,13 @@ frappe.ui.form.on("Performance Rating", {
     employee(frm) {
         // Fetch employee details
         if (frm.doc.employee) {
-            frappe.db.get_value("Employee", frm.doc.employee, ["employee_name", "employee_type", "department", "primary_team"])
+            frappe.db.get_value("Employee", frm.doc.employee, ["employee_name", "custom_employee_type", "department", "custom_primary_team"])
                 .then(r => {
                     if (r.message) {
                         frm.set_value("employee_name", r.message.employee_name);
-                        frm.set_value("employee_type", r.message.employee_type);
+                        frm.set_value("employee_type", r.message.custom_employee_type);
                         frm.set_value("department", r.message.department);
-                        frm.set_value("team", r.message.primary_team);
+                        frm.set_value("team", r.message.custom_primary_team);
                     }
                 });
         }

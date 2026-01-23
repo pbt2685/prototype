@@ -226,8 +226,8 @@ Emergency Contact Name,Người liên hệ khẩn cấp
 Date of Joining,Ngày gia nhập
 Date of Birth,Ngày sinh
 Gender,Giới tính
-Last Name,Họ
-First Name,Tên
+Last Name,Tên
+First Name,Họ
 Designation,Chức danh
 Full Name,Họ và tên
 Department,Phòng ban
@@ -686,7 +686,6 @@ Production Item,Mặt hàng sản xuất
 Scrap Items,Phụ phẩm
 Scrap & Process Loss,Phụ phẩm & hao hụt
 With Operations,Thêm công đoạn sản xuất
-Operations,Công đoạn
 Items,Mặt hàng
 Raw Materials,Nguyên liệu thô
 UOM,Đơn vị
@@ -14035,4 +14034,116 @@ you must select Capital Work in Progress Account in accounts table,you must sele
 {} is a child company.,{} is a child company.
 {} {} is already linked with another {},{} {} is already linked with another {}
 {} {} is already linked with {} {},{} {} is already linked with {} {}
-{} {} is not affecting bank account {},{} {} is not affecting bank account {}
+{} {} is not affecting bank account {},{} {} is not affecting bank account {}Employee,Nhân Viên
+Employees,Nhân Viên
+Employee Name,Tên Nhân Viên
+First Name,Họ
+Last Name,Tên
+Middle Name,Tên Đệm
+Gender,Giới Tính
+Date of Birth,Ngày Sinh
+Date of Joining,Ngày Vào Làm
+Active,Đang Làm Việc
+Left,Đã Nghỉ Việc
+Company,Công Ty
+Department,Phòng Ban
+Designation,Chức Danh
+Reports To,Báo Cáo Cho
+Employee ID,Mã Nhân Viên
+User ID,Tài Khoản Người Dùng
+Cell Number,Số Điện Thoại Di Động
+Personal Email,Email Cá Nhân
+Company Email,Email Công Ty
+Prefered Contact Email,Email Liên Hệ Ưu Tiên
+Prefered Email,Email Ưu Tiên
+Personal Details,Thông Tin Cá Nhân
+Joining,Thông Tin Gia Nhập
+Salary,Lương
+Salary Details,Chi Tiết Lương
+Address & Contacts,Địa Chỉ & Liên Hệ
+Attendance & Leaves,Chấm Công & Nghỉ Phép
+Profile,Hồ Sơ
+Overview,Tổng Quan
+Connections,Kết Nối
+Employee Exit,Nghỉ Việc
+Exit Date,Ngày Nghỉ Việc
+Exit Interview,Phỏng Vấn Nghỉ Việc
+Held On,Ngày Phỏng Vấn
+Bank Account No,Số Tài Khoản Ngân Hàng
+Bank Name,Tên Ngân Hàng
+Bank A/C No.,Số Tài Khoản NH
+IBAN,Số IBAN
+Salary Mode,Hình Thức Trả Lương
+Salary Currency,Đơn Vị Tiền Tệ
+Payroll Cost Center,Trung Tâm Chi Phí Lương
+Team,Nhóm
+Teams,Nhóm
+Team Name,Tên Nhóm
+Team Leader,Trưởng Nhóm
+Team Members,Thành Viên Nhóm
+Project,Dự Án
+Projects,Dự Án
+Project Name,Tên Dự Án
+Project Type,Loại Dự Án
+Expected Start Date,Ngày Bắt Đầu Dự Kiến
+Expected End Date,Ngày Kết Thúc Dự Kiến
+Start Date,Ngày Bắt Đầu
+End Date,Ngày Kết Thúc
+Priority,Độ Ưu Tiên
+Customer,Khách Hàng
+Contract,Hợp Đồng
+Contract Value,Giá Trị Hợp Đồng
+Contract Type,Loại Hợp Đồng
+Contract Status,Trạng Thái Hợp Đồng
+Contract Date,Ngày Hợp Đồng
+Payment Terms,Điều Khoản Thanh Toán
+Milestone,Mốc Thanh Toán
+Milestones,Mốc Thanh Toán
+Milestone Name,Tên Mốc
+Milestone Date,Ngày Mốc
+Amount,Số Tiền
+Payment Status,Trạng Thái Thanh Toán
+Paid,Đã Thanh Toán
+Unpaid,Chưa Thanh Toán
+Partially Paid,Thanh Toán Một Phần
+Expense,Chi Phí
+Expenses,Chi Phí
+Expense Date,Ngày Chi Phí
+Expense Type,Loại Chi Phí
+Expense Category,Danh Mục Chi Phí
+Description,Mô Tả
+Remarks,Ghi Chú
+Approved By,Người Duyệt
+Approval Date,Ngày Duyệt
+Approval Status,Trạng Thái Duyệt
+Pending,Chờ Duyệt
+Approved,Đã Duyệt
+Rejected,Từ Chối
+Male,Nam
+Female,Nữ
+Other,Khác
+High,Cao
+Medium,Trung Bình
+Low,Thấp
+Urgent,Khẩn Cấp
+Regular,Chính Thức
+Intern,Thực Tập Sinh
+Freelancer,Freelancer
+Bank,Ngân Hàng
+Cash,Tiền Mặt
+Monthly,Hàng Tháng
+Weekly,Hàng Tuần
+Daily,Hàng Ngày
+Office,Văn Phòng
+Travel,Đi Lại
+Equipment,Thiết Bị
+Marketing,Marketing
+R&D,Nghiên Cứu & Phát Triển
+Employment Type,Loại Hình Làm Việc
+Permanent,Chính Thức
+Contract,Hợp Đồng
+Intern,Thực Tập
+Probation,Thử Việc
+Commission,Hoa Hồng
+Part Time,Bán Thời Gian
+Temporary,Tạm Thời

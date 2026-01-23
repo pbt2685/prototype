@@ -2,7 +2,7 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "format:SAL-TABLE-{YYYY}-{MM}",
- "creation": "2025-01-15 00:00:00.000000",
+ "creation": "2025-01-15 00:00:00",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -24,13 +24,16 @@
   {
    "fieldname": "period_month",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Th\u00e1ng",
    "options": "01\n02\n03\n04\n05\n06\n07\n08\n09\n10\n11\n12",
    "reqd": 1
   },
   {
+   "default": "2026",
    "fieldname": "period_year",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "N\u0103m",
    "reqd": 1
   },
@@ -42,6 +45,7 @@
    "default": "Draft",
    "fieldname": "export_status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Tr\u1ea1ng Th\u00e1i Xu\u1ea5t",
    "options": "Draft\nApproved\nExported",
    "reqd": 1
@@ -95,7 +99,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-15 00:00:00.000000",
+ "modified": "2026-01-23 14:21:39.856117",
  "modified_by": "Administrator",
  "module": "Cashflow Management",
  "name": "Salary Table",
@@ -127,6 +131,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

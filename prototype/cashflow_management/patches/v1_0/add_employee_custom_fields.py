@@ -16,46 +16,54 @@ def execute():
 	# Define custom fields
 	custom_fields = [
 		{
-			"fieldname": "employee_type_section",
+			"fieldname": "custom_employee_type_section",
 			"label": "Phân Loại Nhân Viên",
 			"fieldtype": "Section Break",
 			"insert_after": "employment_type",
 			"collapsible": 0
 		},
 		{
-			"fieldname": "employee_type",
+			"fieldname": "custom_employee_type",
 			"label": "Loại Nhân Viên",
 			"fieldtype": "Select",
 			"options": "\nRegular\nIntern\nFreelancer",
-			"insert_after": "employee_type_section",
+			"insert_after": "custom_employee_type_section",
 			"in_list_view": 1,
 			"in_standard_filter": 1,
 			"reqd": 1,
 			"default": "Regular"
 		},
 		{
-			"fieldname": "payment_method",
+			"fieldname": "custom_payment_method",
 			"label": "Phương Thức Thanh Toán",
 			"fieldtype": "Select",
 			"options": "\nBank\nCash",
-			"insert_after": "employee_type",
+			"insert_after": "custom_employee_type",
 			"default": "Bank"
 		},
 		{
-			"fieldname": "daily_rate",
+			"fieldname": "custom_base_salary",
+			"label": "Lương Cơ Bản",
+			"fieldtype": "Currency",
+			"insert_after": "custom_payment_method",
+			"precision": 2,
+			"depends_on": "eval:doc.custom_employee_type=='Regular'"
+		},
+		{
+			"fieldname": "custom_daily_rate",
 			"label": "Đơn Giá Ngày",
 			"fieldtype": "Currency",
-			"insert_after": "payment_method",
+			"insert_after": "custom_base_salary",
 			"precision": 2,
-			"depends_on": "eval:doc.employee_type=='Intern'"
+			"depends_on": "eval:doc.custom_employee_type=='Intern'"
 		},
 		{
 			"fieldname": "column_break_emp_type",
 			"fieldtype": "Column Break",
-			"insert_after": "daily_rate"
+			"insert_after": "custom_daily_rate"
 		},
 		{
-			"fieldname": "primary_team",
+			"fieldname": "custom_primary_team",
 			"label": "Nhóm Chính",
 			"fieldtype": "Link",
 			"options": "Team",
@@ -90,12 +98,12 @@ def execute():
 	try:
 		frappe.db.sql("""
 			UPDATE `tabEmployee`
-			SET employee_type = 'Regular'
-			WHERE (employee_type IS NULL OR employee_type = '')
-			AND EXISTS (SELECT 1 FROM `tabCustom Field` WHERE dt='Employee' AND fieldname='employee_type')
+			SET custom_employee_type = 'Regular'
+			WHERE (custom_employee_type IS NULL OR custom_employee_type = '')
+			AND EXISTS (SELECT 1 FROM `tabCustom Field` WHERE dt='Employee' AND fieldname='custom_employee_type')
 		""")
 		frappe.db.commit()
 	except Exception as e:
-		print(f"   ⚠ Could not set default employee_type: {str(e)}")
+		print(f"   ⚠ Could not set default custom_employee_type: {str(e)}")
 	
 	print("✅ Added custom fields to Employee")

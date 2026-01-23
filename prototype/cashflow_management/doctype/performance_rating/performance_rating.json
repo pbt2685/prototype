@@ -46,7 +46,7 @@
    "read_only": 1
   },
   {
-   "fetch_from": "employee.employee_type",
+   "fetch_from": "employee.custom_employee_type",
    "fieldname": "employee_type",
    "fieldtype": "Data",
    "label": "Lo\u1ea1i Nh\u00e2n Vi\u00ean",
@@ -57,7 +57,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "employee.primary_team",
+   "fetch_from": "employee.custom_primary_team",
    "fieldname": "team",
    "fieldtype": "Link",
    "label": "Nh\u00f3m",

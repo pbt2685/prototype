@@ -21,8 +21,8 @@ def validate_employee_type_immutable(doc):
     if not old_doc:
         return
     
-    old_type = old_doc.get("employee_type")
-    new_type = doc.get("employee_type")
+    old_type = old_doc.get("custom_employee_type")
+    new_type = doc.get("custom_employee_type")
     
     if old_type and new_type and old_type != new_type:
         frappe.throw(
@@ -33,7 +33,7 @@ def validate_employee_type_immutable(doc):
 
 def validate_regular_employee_contract(doc):
     """BR-EMP-002: Regular employees must have contract"""
-    if doc.employee_type == "Regular":
+    if doc.custom_employee_type == "Regular":
         # Check if contract exists
         has_contract = frappe.db.exists(
             "Contract",
@@ -54,18 +54,18 @@ def validate_regular_employee_contract(doc):
 
 def validate_intern_daily_rate(doc):
     """BR-EMP-003: Interns must have daily_rate"""
-    if doc.employee_type == "Intern":
-        if not doc.daily_rate or doc.daily_rate <= 0:
+    if doc.custom_employee_type == "Intern":
+        if not doc.custom_daily_rate or doc.custom_daily_rate <= 0:
             frappe.throw(
                 _("Thực tập sinh phải có đơn giá ngày (daily_rate) để tính lương"),
                 frappe.exceptions.ValidationError
             )
         
         # Ensure payment method is Cash for interns
-        if doc.payment_method != "Cash":
+        if doc.custom_payment_method != "Cash":
             frappe.msgprint(
                 _("Thực tập sinh thường được thanh toán bằng tiền mặt. Đã tự động chuyển sang phương thức Tiền Mặt."),
                 alert=True,
                 indicator="blue"
             )
-            doc.payment_method = "Cash"
+            doc.custom_payment_method = "Cash"

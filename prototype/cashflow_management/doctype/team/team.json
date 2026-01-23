@@ -13,6 +13,8 @@
   "team_lead",
   "is_revenue_generating",
   "active",
+  "section_break_members",
+  "team_members",
   "section_break_2",
   "description"
  ],
@@ -66,6 +68,17 @@
    "fieldname": "active",
    "fieldtype": "Check",
    "label": "\u0110ang Ho\u1ea1t \u0110\u1ed9ng"
+  },
+  {
+   "fieldname": "section_break_members",
+   "fieldtype": "Section Break",
+   "label": "Th\u00e0nh Vi\u00ean"
+  },
+  {
+   "fieldname": "team_members",
+   "fieldtype": "Table",
+   "label": "Danh S\u00e1ch Th\u00e0nh Vi\u00ean",
+   "options": "Team Member"
   },
   {
    "collapsible": 1,

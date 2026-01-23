@@ -297,6 +297,8 @@
 - BR-PERF-001: Required for intern salary
 - BR-PERF-002: BOD can override
 - BR-PERF-003: Score 1-5 only
+- BR-PERF-004: Cannot create/edit if salary table submitted for that month
+- BR-PERF-005: No rating = default 1.0 performance factor
 
 ## Rating Scale
 ```
@@ -370,12 +372,12 @@
 ## Key User Stories
 
 **US-001: Process Regular Employee Salary**
-- Gross = Base + Allowances
-- Employee SS = Gross × 10.5%
-- Tax = (Gross - 11M - Employee SS) × Rate
-- Net = Gross - Employee SS - Tax + Bonus
+- Salary = BHXH Salary + Non-BHXH
+- BHXH Salary: Manually entered (defaults to minimum salary 4.96M)
+- Gross = BHXH Salary × Performance Factor + Non-BHXH
 - Payment: Bank
 - Generate note (CR-PAYMENT-NOTE-001)
+- Performance rating affects BHXH portion only
 
 **US-002: Process Intern Salary**
 - Check attendance exists (BR-SAL-001)
@@ -400,15 +402,24 @@
 - BR-SAL-005: Regular needs SS calc
 - BR-SAL-006: Freelancer 10% tax
 - BR-SAL-007: Intern non-deductible
+- BR-PERF-003: Performance rating locked when salary table is submitted
+- BR-PERF-004: No performance rating = 1.0 performance factor (default)
 
 ## Calculations
 ```
 Regular:
-  Gross = Base + Allowances
-  Deductions = SS (10.5%) + Tax
-  Net = Gross - Deductions + Bonus
+  BHXH Salary = Manual input (default: 4,960,000 VND minimum)
+  Non-BHXH = Base Salary - BHXH Salary
+  Performance Factor = From rating (default 1.0 if no rating)
+  Adjusted BHXH = BHXH Salary × Performance Factor
+  Gross = Adjusted BHXH + Non-BHXH
+  SS = Adjusted BHXH × 10.5%
+  Tax = (Gross - 11M - SS) × Rate
+  Net = Gross + Allowances - SS - Tax + Bonus
+  Note: Performance rating only affects BHXH portion
 
 Intern:
+  Performance Factor = From rating (default 1.0 if no rating)
   Base = Daily Rate × Days × Performance Factor
   Net = Base + Bonus
   (Cash, non-deductible)

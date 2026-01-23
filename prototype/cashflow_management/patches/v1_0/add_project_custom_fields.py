@@ -58,9 +58,19 @@ def execute():
                 "default": "On-time",
                 "in_list_view": 1,
                 "description": "Đúng Hạn / Trễ Hạn"
+            },
+            {
+                "fieldname": "custom_assigned_team",
+                "label": "Nhóm Phụ Trách",
+                "fieldtype": "Link",
+                "options": "Team",
+                "insert_after": "custom_project_status",
+                "in_list_view": 1,
+                "in_standard_filter": 1,
+                "description": "Nhóm được giao thực hiện dự án"
             }
         ]
     }
     
     create_custom_fields(custom_fields, update=True)
-    print("✓ Added custom fields to Project: custom_project_type, custom_linked_contract, custom_rd_budget, custom_bonus_policy, custom_project_status")
+    print("✓ Added custom fields to Project: custom_project_type, custom_linked_contract, custom_rd_budget, custom_bonus_policy, custom_project_status, custom_assigned_team")

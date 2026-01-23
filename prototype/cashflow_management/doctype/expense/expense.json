@@ -1,8 +1,7 @@
 {
  "actions": [],
- "allow_rename": 0,
  "autoname": "format:EXP-{YYYY}-{#####}",
- "creation": "2026-01-16 11:00:00.000000",
+ "creation": "2026-01-16 11:00:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -30,13 +29,13 @@
  ],
  "fields": [
   {
-   "default": "Individual",
+   "default": "L\u1ebb",
    "fieldname": "expense_type",
    "fieldtype": "Select",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Lo\u1ea1i",
-   "options": "Individual\nGrouped",
+   "options": "L\u1ebb\nG\u1ed9p",
    "reqd": 1
   },
   {
@@ -171,7 +170,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-16 11:00:00.000000",
+ "modified": "2026-01-23 13:50:58.558520",
  "modified_by": "Administrator",
  "module": "Cashflow Management",
  "name": "Expense",
@@ -210,6 +209,7 @@
    "role": "Accounts User"
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

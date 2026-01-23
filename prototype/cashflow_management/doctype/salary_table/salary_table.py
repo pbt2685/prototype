@@ -74,7 +74,7 @@ def generate_salary_items(salary_table_name, period_month, period_year):
         "Employee",
         filters={"status": "Active"},
         fields=["name", "employee_name", "custom_employee_type", "custom_primary_team", 
-                "bank_ac_no", "custom_base_salary", "custom_daily_rate", 
+                "bank_ac_no", "custom_base_salary", "custom_bhxh_salary", "custom_daily_rate", 
                 "custom_performance_factor"]
     )
     
@@ -118,30 +118,48 @@ def calculate_employee_salary(emp, period_month, period_year):
     }
     
     if emp_type == "Regular":
-        # CR-SAL-REGULAR-001: Base + Allowances - (Tax + SS) + Bonus
+        # CR-SAL-REGULAR-001: Salary = BHXH Salary + Non-BHXH
+        # Net = BHXH Salary × Performance Factor + Non-BHXH + Bonus
+        # Performance rating affects BHXH portion only
         base_salary = emp.get("custom_base_salary", 0)
         salary_item["base_amount"] = base_salary
         
-        # Simplified calculation (in real system, use Salary Structure)
-        gross = base_salary
-        employee_ss = gross * 0.105  # 10.5% employee social security
+        # Get performance factor from Performance Rating
+        performance_factor = get_performance_factor(emp.name, period_month, period_year)
+        if performance_factor is None:
+            performance_factor = emp.get("custom_performance_factor", 1.0)
         
-        # Tax calculation (simplified)
+        # Get BHXH salary (manually entered, defaults to minimum salary)
+        salary_bhxh = emp.get("custom_bhxh_salary", 4960000)  # Default to minimum if not set
+        non_bhxh = base_salary - salary_bhxh
+        
+        # Apply performance to BHXH portion only
+        adjusted_bhxh = salary_bhxh * performance_factor
+        gross = adjusted_bhxh + non_bhxh
+        
+        # Social security calculation on adjusted BHXH
+        employee_ss = adjusted_bhxh * 0.105  # 10.5%
+        
+        # Tax calculation (simplified progressive)
         taxable = gross - 11000000 - employee_ss
-        tax = max(0, taxable * 0.1)  # Simplified 10% tax
+        tax = max(0, taxable * 0.1)  # Simplified 10% tax rate
         
-        allowances = 2000000  # Fixed allowances (simplified)
+        # Allowances and bonus
+        allowances = 2000000  # Fixed allowances
         bonus = get_employee_bonus(emp.name, period_month, period_year)
         
+        # Net pay calculation
         net_pay = gross + allowances - employee_ss - tax + bonus
         
         salary_item.update({
+            "performance_factor": performance_factor,
             "allowances": allowances,
             "deductions": employee_ss + tax,
             "bonus": bonus,
             "net_pay": net_pay,
             "payment_note": generate_payment_note(
-                period_month, period_year, gross, allowances, employee_ss + tax, bonus
+                period_month, period_year, gross, allowances, employee_ss + tax, bonus,
+                performance_factor=performance_factor
             )
         })
     
@@ -205,12 +223,14 @@ def generate_payment_note(period_month, period_year, base, allowances, deduction
     if attendance_days is not None:
         # Intern note
         note_parts.append(f"Ngày công: {attendance_days}")
-        if performance_factor:
+        if performance_factor and performance_factor != 1.0:
             note_parts.append(f"HS: {performance_factor}x")
     else:
         # Regular/Freelancer note
         if base:
             note_parts.append(f"LCB: {format_currency(base)}")
+        if performance_factor and performance_factor != 1.0:
+            note_parts.append(f"HS: {performance_factor}x")
         if allowances:
             note_parts.append(f"PC: {format_currency(allowances)}")
         if deductions:
@@ -246,17 +266,21 @@ def get_attendance_days(employee, month, year):
 
 
 def get_performance_factor(employee, month, year):
-    """Get performance factor from Performance Rating"""
+    """
+    Get performance factor from Performance Rating
+    BR-PERF-004: Returns None if no rating exists (defaults to 1.0 in calculation)
+    """
     # Find performance rating for this month
     rating_doc = frappe.db.get_value(
         "Performance Rating",
         {
             "employee": employee,
-            "rating_period": ["like", f"{year}-{month}%"]
+            "rating_period": ["like", f"{year}-{int(month):02d}%"],
+            "docstatus": 1  # Only submitted ratings
         },
         "performance_factor"
     )
-    return rating_doc
+    return rating_doc  # Returns None if no rating found -> defaults to 1.0
 
 
 def get_employee_bonus(employee, month, year):

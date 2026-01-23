@@ -109,8 +109,9 @@ M007 - Reports & Analytics
 8. AUTO SALARY CALCULATION
    
    Full-time Employees:
-   • Net salary = Base + Allowances - Deductions
-   • Social insurance
+   • Salary = BHXH Salary + Non-BHXH
+   • BHXH Salary: Manually entered (defaults to minimum allowed salary)
+   • Net = BHXH Salary × Performance Factor + Non-BHXH + Bonus
    
    Interns:
    • Base = Unit price × Days worked

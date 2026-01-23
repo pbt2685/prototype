@@ -8,6 +8,9 @@
 # M001: Core Setup - Custom Fields
 prototype.cashflow_management.patches.v1_0.add_department_custom_fields
 prototype.cashflow_management.patches.v1_0.add_employee_custom_fields
+prototype.cashflow_management.patches.v1_0.fix_employee_custom_fields
+prototype.cashflow_management.patches.v1_0.add_bhxh_salary_field
+prototype.cashflow_management.patches.v1_0.reorganize_employee_salary_fields
 prototype.cashflow_management.patches.v1_0.add_project_assigned_team_field
 
 # M002: Employee Management - Performance Rating

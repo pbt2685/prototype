@@ -9,22 +9,24 @@ from frappe.utils import flt, getdate, get_first_day, get_last_day
 
 
 def execute(filters=None):
+    if not filters:
+        filters = {}
+    
     columns = get_columns()
     data = get_data(filters)
     chart = get_chart_data(data)
     
-    return columns, data, None, chart
+    return columns, data, None, chart, None
 
 
 def get_columns():
-    """Define report columns"""
+    """Define report columns with proper alignment and formatting"""
     return [
         {
             "fieldname": "team",
-            "label": _("Nhóm"),
-            "fieldtype": "Link",
-            "options": "Team",
-            "width": 150
+            "label": _("Mã Nhóm"),
+            "fieldtype": "Data",
+            "width": 100
         },
         {
             "fieldname": "team_name",
@@ -34,51 +36,52 @@ def get_columns():
         },
         {
             "fieldname": "project_type",
-            "label": _("Loại"),
+            "label": _("Loại Dự Án"),
             "fieldtype": "Data",
-            "width": 100
+            "width": 110
         },
         {
             "fieldname": "income",
             "label": _("Thu Nhập"),
             "fieldtype": "Currency",
-            "width": 120
+            "width": 140
         },
         {
             "fieldname": "labor_cost",
-            "label": _("Chi Phí Nhân Công"),
+            "label": _("CP Nhân Công"),
             "fieldtype": "Currency",
             "width": 140
         },
         {
             "fieldname": "direct_expenses",
-            "label": _("Chi Phí Trực Tiếp"),
+            "label": _("CP Trực Tiếp"),
             "fieldtype": "Currency",
             "width": 140
         },
         {
             "fieldname": "shared_expenses",
-            "label": _("Chi Phí Chung"),
+            "label": _("CP Chung"),
             "fieldtype": "Currency",
-            "width": 120
+            "width": 140
         },
         {
             "fieldname": "total_cost",
-            "label": _("Tổng Chi Phí"),
+            "label": _("Tổng CP"),
             "fieldtype": "Currency",
-            "width": 120
+            "width": 140
         },
         {
             "fieldname": "profit",
             "label": _("Lợi Nhuận"),
             "fieldtype": "Currency",
-            "width": 120
+            "width": 140
         },
         {
             "fieldname": "margin",
             "label": _("Biên (%)"),
             "fieldtype": "Percent",
-            "width": 100
+            "width": 90,
+            "precision": 2
         }
     ]
 
@@ -155,12 +158,12 @@ def calculate_team_performance(team, filters):
         "team": team.name,
         "team_name": team.team_name,
         "project_type": project_type,
-        "income": income,
-        "labor_cost": labor_cost,
-        "direct_expenses": direct_expenses,
-        "shared_expenses": shared_expenses,
-        "total_cost": total_cost,
-        "profit": profit,
+        "income": income or 0,
+        "labor_cost": labor_cost or 0,
+        "direct_expenses": direct_expenses or 0,
+        "shared_expenses": shared_expenses or 0,
+        "total_cost": total_cost or 0,
+        "profit": profit or 0,
         "margin": margin
     }
 

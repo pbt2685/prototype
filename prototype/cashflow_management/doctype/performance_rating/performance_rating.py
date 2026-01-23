@@ -10,18 +10,49 @@ class PerformanceRating(Document):
     def validate(self):
         """Validate performance rating (monthly for interns)"""
         self.validate_intern_only()
+        self.validate_salary_table_not_locked()
         self.validate_duplicate_rating()
         self.calculate_performance_factor()
         self.set_rating_metadata()
     
     def validate_intern_only(self):
         """Performance ratings are primarily for interns"""
-        if self.employee_type and self.employee_type != "Intern":
-            frappe.msgprint(
-                _("Lưu ý: Đánh giá hiệu suất chủ yếu dùng để tính lương cho Thực Tập Sinh. "
-                  "Nhân viên loại {0} không cần đánh giá hàng tháng.").format(self.employee_type),
-                alert=True,
-                indicator="blue"
+        if self.employee:
+            employee_type = frappe.db.get_value("Employee", self.employee, "custom_employee_type")
+            if employee_type and employee_type != "Intern":
+                frappe.msgprint(
+                    _("Lưu ý: Đánh giá hiệu suất chủ yếu dùng để tính lương cho Thực Tập Sinh. "
+                      "Nhân viên loại {0} không cần đánh giá hàng tháng.").format(employee_type),
+                    alert=True,
+                    indicator="blue"
+                )
+    
+    def validate_salary_table_not_locked(self):
+        """BR-PERF-003: Cannot create/edit performance rating if salary table is submitted for the month"""
+        from frappe.utils import get_first_day, get_last_day
+        
+        first_day = get_first_day(self.rating_period)
+        last_day = get_last_day(self.rating_period)
+        
+        # Extract month and year from rating period
+        period_month = int(self.rating_period.strftime('%m'))
+        period_year = int(self.rating_period.strftime('%Y'))
+        
+        # Check if any submitted Salary Table exists for this month
+        salary_table = frappe.db.exists(
+            "Salary Table",
+            {
+                "period_month": period_month,
+                "period_year": period_year,
+                "docstatus": 1  # Submitted
+            }
+        )
+        
+        if salary_table:
+            frappe.throw(
+                _("Không thể tạo/sửa đánh giá hiệu suất cho tháng {0}/{1}. "
+                  "Bảng lương đã được phê duyệt và khóa.").format(period_month, period_year),
+                frappe.exceptions.ValidationError
             )
     
     def validate_duplicate_rating(self):
@@ -32,15 +63,18 @@ class PerformanceRating(Document):
         first_day = get_first_day(self.rating_period)
         last_day = get_last_day(self.rating_period)
         
-        existing = frappe.db.exists(
-            "Performance Rating",
-            {
-                "employee": self.employee,
-                "rating_period": ["between", [first_day, last_day]],
-                "name": ["!=", self.name],
-                "docstatus": ["!=", 2]  # Exclude cancelled
-            }
-        )
+        filters = {
+            "employee": self.employee,
+            "rating_period": ["between", [first_day, last_day]],
+            "name": ["!=", self.name],
+            "docstatus": ["!=", 2]  # Exclude cancelled
+        }
+        
+        # If this is an amended document, also exclude the original (being cancelled)
+        if self.amended_from:
+            filters["name"] = ["not in", [self.name, self.amended_from]]
+        
+        existing = frappe.db.exists("Performance Rating", filters)
         
         if existing:
             frappe.throw(
@@ -117,13 +151,14 @@ class PerformanceRating(Document):
                 }
             )
         else:
+            # No previous rating found - reset to defaults
             frappe.db.set_value(
                 "Employee",
                 self.employee,
                 {
                     "custom_last_performance_rating": None,
                     "custom_last_rating_date": None,
-                    "custom_performance_factor": None
+                    "custom_performance_factor": 1.0  # Reset to default
                 }
             )
 
@@ -141,12 +176,17 @@ def override_rating_by_bod(performance_rating, new_rating_score, bod_comments):
     if doc.docstatus != 1:
         frappe.throw(_("Chỉ có thể ghi đè đánh giá đã được phê duyệt"))
     
+    # Cancel original first
+    doc.cancel()
+    
     # Create amended version
     amended_doc = frappe.copy_doc(doc)
     amended_doc.rating_score = new_rating_score
     amended_doc.is_overridden_by_bod = 1
     amended_doc.bod_comments = bod_comments
     amended_doc.amended_from = doc.name
+    amended_doc.name = None  # Let system generate new name
+    amended_doc.docstatus = 0  # Reset to draft
     
     # Calculate new performance factor
     amended_doc.calculate_performance_factor()
@@ -154,9 +194,6 @@ def override_rating_by_bod(performance_rating, new_rating_score, bod_comments):
     # Save and submit
     amended_doc.insert()
     amended_doc.submit()
-    
-    # Cancel original
-    doc.cancel()
     
     frappe.msgprint(
         _("Đã ghi đè đánh giá hiệu suất. Đánh giá mới: {0}").format(amended_doc.name)

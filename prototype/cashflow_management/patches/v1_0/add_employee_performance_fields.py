@@ -15,7 +15,7 @@ def execute():
                 "label": "Đánh Giá Gần Nhất",
                 "fieldtype": "Select",
                 "options": "1\n2\n3\n4\n5",
-                "insert_after": "primary_team",
+                "insert_after": "custom_primary_team",
                 "read_only": 1,
                 "description": "Điểm đánh giá hiệu suất gần nhất"
             },
